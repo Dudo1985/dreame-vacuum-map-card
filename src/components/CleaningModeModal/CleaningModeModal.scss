@@ -228,7 +228,6 @@
     height: 6px;
     border-radius: 3px;
     outline: none;
-    background: linear-gradient(to right, #D4AF37 0%, #D4AF37 66%, #e0e0e0 66%, #e0e0e0 100%);
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
@@ -258,7 +257,6 @@
   &__slider-value {
     position: absolute;
     top: -32px;
-    left: 66%;
     transform: translateX(-50%);
     background: #D4AF37;
     border-radius: 50%;

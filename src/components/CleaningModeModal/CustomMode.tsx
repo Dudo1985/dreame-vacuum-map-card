@@ -59,6 +59,27 @@ export function CustomMode({
     });
   };
 
+  // Convert display value to service value for cleaning mode
+  const convertToServiceValue = (mode: string): string => {
+    if (mode === 'Sweeping') return 'sweeping';
+    if (mode === 'Mopping') return 'mopping';
+    if (mode === 'Sweeping and mopping') return 'sweeping_and_mopping';
+    if (mode === 'Mopping after sweeping') return 'mopping_after_sweeping';
+    return mode;
+  };
+
+  // Convert suction level to service value
+  const convertSuctionToServiceValue = (level: string): string => {
+    // Convert to lowercase for service call
+    return level.toLowerCase();
+  };
+
+  // Convert route to service value
+  const convertRouteToServiceValue = (route: string): string => {
+    // Convert to lowercase for service call
+    return route.toLowerCase();
+  };
+
   // Map cleaning modes to icons
   const getModeIcon = (mode: string): string => {
     if (mode.includes('Sweep') && mode.includes('Mop')) return '🔄';
@@ -96,7 +117,7 @@ export function CustomMode({
               <CircularButton
                 size="small"
                 selected={mode === cleaningMode}
-                onClick={() => setSelectOption(cleaningModeEntity, mode)}
+                onClick={() => setSelectOption(cleaningModeEntity, convertToServiceValue(mode))}
                 icon={getModeIcon(mode)}
               />
               <span className="cleaning-mode-modal__mode-option-label">{mode}</span>
@@ -114,7 +135,7 @@ export function CustomMode({
               <CircularButton
                 size="small"
                 selected={level === suctionLevel}
-                onClick={() => setSelectOption(suctionLevelEntity, level)}
+                onClick={() => setSelectOption(suctionLevelEntity, convertSuctionToServiceValue(level))}
                 icon={getSuctionIcon(level)}
               />
               <span className="cleaning-mode-modal__power-label">{level}</span>
@@ -137,42 +158,54 @@ export function CustomMode({
         </div>
       </section>
 
-      {/* Wetness */}
-      <section className="cleaning-mode-modal__section">
-        <h3 className="cleaning-mode-modal__section-title">Wetness</h3>
+      {/* Wetness - Only show when mopping is enabled */}
+      {cleaningMode !== 'Sweeping' && (
+        <section className="cleaning-mode-modal__section">
+          <h3 className="cleaning-mode-modal__section-title">Wetness</h3>
 
-        {/* Slider */}
-        <div className="cleaning-mode-modal__slider-container">
-          <input
-            type="range"
-            min="0"
-            max="30"
-            value={wetnessLevel}
-            onChange={(e) => setNumber(wetnessLevelEntity, parseInt(e.target.value))}
-            className="cleaning-mode-modal__slider"
-          />
-          <div className="cleaning-mode-modal__slider-value">{wetnessLevel}</div>
-        </div>
+          {/* Slider */}
+          <div className="cleaning-mode-modal__slider-container">
+            <input
+              type="range"
+              min="1"
+              max="32"
+              value={wetnessLevel}
+              onChange={(e) => setNumber(wetnessLevelEntity, parseInt(e.target.value))}
+              className="cleaning-mode-modal__slider"
+              style={{
+                background: `linear-gradient(to right, #D4AF37 0%, #D4AF37 ${((wetnessLevel - 1) / 31) * 100}%, #e0e0e0 ${((wetnessLevel - 1) / 31) * 100}%, #e0e0e0 100%)`
+              }}
+            />
+            <div 
+              className="cleaning-mode-modal__slider-value"
+              style={{
+                left: `calc(${((wetnessLevel - 1) / 31) * 100}% + ${8 - ((wetnessLevel - 1) / 31) * 16}px)`
+              }}
+            >
+              {wetnessLevel}
+            </div>
+          </div>
 
-        {/* Labels */}
-        <div className="cleaning-mode-modal__slider-labels">
-          <span className={`cleaning-mode-modal__slider-label ${
-            mopPadHumidity === 'Slightly dry' ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
-          }`}>
-            Slightly dry
-          </span>
-          <span className={`cleaning-mode-modal__slider-label ${
-            mopPadHumidity === 'Moist' ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
-          }`}>
-            Moist
-          </span>
-          <span className={`cleaning-mode-modal__slider-label ${
-            mopPadHumidity === 'Wet' ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
-          }`}>
-            Wet
-          </span>
-        </div>
-      </section>
+          {/* Labels */}
+          <div className="cleaning-mode-modal__slider-labels">
+            <span className={`cleaning-mode-modal__slider-label ${
+              mopPadHumidity === 'Slightly dry' ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
+            }`}>
+              Slightly dry
+            </span>
+            <span className={`cleaning-mode-modal__slider-label ${
+              mopPadHumidity === 'Moist' ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
+            }`}>
+              Moist
+            </span>
+            <span className={`cleaning-mode-modal__slider-label ${
+              mopPadHumidity === 'Wet' ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
+            }`}>
+              Wet
+            </span>
+          </div>
+        </section>
+      )}
 
       {/* Mop-washing frequency */}
       <div className="cleaning-mode-modal__setting cleaning-mode-modal__setting--clickable">
@@ -196,7 +229,7 @@ export function CustomMode({
               <CircularButton
                 size="small"
                 selected={route === cleaningRoute}
-                onClick={() => setSelectOption(cleaningRouteEntity, route)}
+                onClick={() => setSelectOption(cleaningRouteEntity, convertRouteToServiceValue(route))}
                 icon={getRouteIcon(route)}
               />
               <span className="cleaning-mode-modal__route-label">{route}</span>
