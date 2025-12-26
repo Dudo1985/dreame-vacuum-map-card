@@ -30,6 +30,13 @@ export function CleaningModeModal({
   const cleaningRoute = entity.attributes.cleaning_route || 'Standard';
   const maxSuctionPower = entity.attributes.max_suction_power || false;
   const selfCleanArea = entity.attributes.self_clean_area || 20;
+  const selfCleanFrequency = entity.attributes.self_clean_frequency || 'By area';
+  const selfCleanFrequencyList = entity.attributes.self_clean_frequency_list || ['By area', 'By time', 'By room'];
+  const selfCleanAreaMin = entity.attributes.self_clean_area_min || 10;
+  const selfCleanAreaMax = entity.attributes.self_clean_area_max || 35;
+  const selfCleanTime = entity.attributes.previous_self_clean_time || 25;
+  const selfCleanTimeMin = entity.attributes.self_clean_time_min || 10;
+  const selfCleanTimeMax = entity.attributes.self_clean_time_max || 50;
   const mopPadHumidity = entity.attributes.mop_pad_humidity || 'Moist';
 
   const modeOptions = [
@@ -129,11 +136,19 @@ export function CleaningModeModal({
             cleaningRouteList={cleaningRouteList}
             maxSuctionPower={maxSuctionPower}
             selfCleanArea={selfCleanArea}
+            selfCleanFrequency={selfCleanFrequency}
+            selfCleanFrequencyList={selfCleanFrequencyList}
+            selfCleanAreaMin={selfCleanAreaMin}
+            selfCleanAreaMax={selfCleanAreaMax}
+            selfCleanTime={selfCleanTime}
+            selfCleanTimeMin={selfCleanTimeMin}
+            selfCleanTimeMax={selfCleanTimeMax}
             cleaningModeEntity={cleaningModeEntity}
             suctionLevelEntity={suctionLevelEntity}
             wetnessLevelEntity={wetnessLevelEntity}
             cleaningRouteEntity={cleaningRouteEntity}
             maxSuctionEntity={maxSuctionEntity}
+            baseEntityId={baseEntityId}
             hass={hass}
           />
         )}

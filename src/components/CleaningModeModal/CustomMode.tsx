@@ -12,11 +12,19 @@ interface CustomModeProps {
   cleaningRouteList: string[];
   maxSuctionPower: boolean;
   selfCleanArea: number;
+  selfCleanFrequency: string;
+  selfCleanFrequencyList: string[];
+  selfCleanAreaMin: number;
+  selfCleanAreaMax: number;
+  selfCleanTime: number;
+  selfCleanTimeMin: number;
+  selfCleanTimeMax: number;
   cleaningModeEntity: string;
   suctionLevelEntity: string;
   wetnessLevelEntity: string;
   cleaningRouteEntity: string;
   maxSuctionEntity: string;
+  baseEntityId: string;
   hass: Hass;
 }
 
@@ -31,11 +39,19 @@ export function CustomMode({
   cleaningRouteList,
   maxSuctionPower,
   selfCleanArea,
+  selfCleanFrequency,
+  selfCleanFrequencyList,
+  selfCleanAreaMin,
+  selfCleanAreaMax,
+  selfCleanTime,
+  selfCleanTimeMin,
+  selfCleanTimeMax,
   cleaningModeEntity,
   suctionLevelEntity,
   wetnessLevelEntity,
   cleaningRouteEntity,
   maxSuctionEntity,
+  baseEntityId,
   hass,
 }: CustomModeProps) {
   // Service call helpers
@@ -78,6 +94,14 @@ export function CustomMode({
   const convertRouteToServiceValue = (route: string): string => {
     // Convert to lowercase for service call
     return route.toLowerCase();
+  };
+
+  // Convert self clean frequency to service value
+  const convertFrequencyToServiceValue = (freq: string): string => {
+    if (freq === 'By area') return 'by_area';
+    if (freq === 'By time') return 'by_time';
+    if (freq === 'By room') return 'by_room';
+    return freq;
   };
 
   // Map cleaning modes to icons
@@ -208,13 +232,58 @@ export function CustomMode({
       )}
 
       {/* Mop-washing frequency */}
-      <div className="cleaning-mode-modal__setting cleaning-mode-modal__setting--clickable">
-        <span className="cleaning-mode-modal__setting-label">Mop-washing frequency</span>
-        <div className="cleaning-mode-modal__setting-value">
-          <span>By Area {selfCleanArea}m²</span>
-          <span className="cleaning-mode-modal__setting-arrow">›</span>
+      <section className="cleaning-mode-modal__section">
+        <h3 className="cleaning-mode-modal__section-title">Mop-washing frequency</h3>
+        
+        {/* Frequency type selector */}
+        <div className="cleaning-mode-modal__horizontal-scroll">
+          {selfCleanFrequencyList.map((freq, idx) => (
+            <div key={idx} className="cleaning-mode-modal__mode-option">
+              <CircularButton
+                size="small"
+                selected={freq === selfCleanFrequency}
+                onClick={() => setSelectOption(`select.${baseEntityId}_self_clean_frequency`, convertFrequencyToServiceValue(freq))}
+                icon={freq === 'By area' ? '📐' : freq === 'By time' ? '⏱️' : '🏠'}
+              />
+              <span className="cleaning-mode-modal__mode-option-label">{freq}</span>
+            </div>
+          ))}
         </div>
-      </div>
+
+        {/* Slider for By area or By time */}
+        {(selfCleanFrequency === 'By area' || selfCleanFrequency === 'By time') && (
+          <div className="cleaning-mode-modal__slider-container" style={{ marginTop: '16px' }}>
+            <input
+              type="range"
+              min={selfCleanFrequency === 'By area' ? selfCleanAreaMin : selfCleanTimeMin}
+              max={selfCleanFrequency === 'By area' ? selfCleanAreaMax : selfCleanTimeMax}
+              value={selfCleanFrequency === 'By area' ? selfCleanArea : selfCleanTime}
+              onChange={(e) => {
+                const entity = selfCleanFrequency === 'By area' 
+                  ? `number.${baseEntityId}_self_clean_area`
+                  : `number.${baseEntityId}_self_clean_time`;
+                setNumber(entity, parseInt(e.target.value));
+              }}
+              className="cleaning-mode-modal__slider"
+              style={{
+                background: selfCleanFrequency === 'By area'
+                  ? `linear-gradient(to right, #D4AF37 0%, #D4AF37 ${((selfCleanArea - selfCleanAreaMin) / (selfCleanAreaMax - selfCleanAreaMin)) * 100}%, #e0e0e0 ${((selfCleanArea - selfCleanAreaMin) / (selfCleanAreaMax - selfCleanAreaMin)) * 100}%, #e0e0e0 100%)`
+                  : `linear-gradient(to right, #D4AF37 0%, #D4AF37 ${((selfCleanTime - selfCleanTimeMin) / (selfCleanTimeMax - selfCleanTimeMin)) * 100}%, #e0e0e0 ${((selfCleanTime - selfCleanTimeMin) / (selfCleanTimeMax - selfCleanTimeMin)) * 100}%, #e0e0e0 100%)`
+              }}
+            />
+            <div 
+              className="cleaning-mode-modal__slider-value"
+              style={{
+                left: selfCleanFrequency === 'By area'
+                  ? `calc(${((selfCleanArea - selfCleanAreaMin) / (selfCleanAreaMax - selfCleanAreaMin)) * 100}% + ${8 - ((selfCleanArea - selfCleanAreaMin) / (selfCleanAreaMax - selfCleanAreaMin)) * 16}px)`
+                  : `calc(${((selfCleanTime - selfCleanTimeMin) / (selfCleanTimeMax - selfCleanTimeMin)) * 100}% + ${8 - ((selfCleanTime - selfCleanTimeMin) / (selfCleanTimeMax - selfCleanTimeMin)) * 16}px)`
+              }}
+            >
+              {selfCleanFrequency === 'By area' ? `${selfCleanArea}m²` : `${selfCleanTime}m`}
+            </div>
+          </div>
+        )}
+      </section>
 
       {/* Route */}
       <section className="cleaning-mode-modal__section">
