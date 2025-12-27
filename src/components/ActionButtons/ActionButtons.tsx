@@ -6,6 +6,7 @@ interface ActionButtonsProps {
   selectedRoomsCount: number;
   isRunning: boolean;
   isPaused: boolean;
+  isDocked: boolean;
   onClean: () => void;
   onPause: () => void;
   onResume: () => void;
@@ -18,6 +19,7 @@ export function ActionButtons({
   selectedRoomsCount,
   isRunning,
   isPaused,
+  isDocked,
   onClean,
   onPause,
   onResume,
@@ -39,17 +41,17 @@ export function ActionButtons({
     }
   };
 
-  if (isRunning && !isPaused) {
+  if (isRunning && !isPaused && !isDocked) {
     return (
       <div className="action-buttons">
         <button onClick={onPause} className="action-buttons__pause">
           <span className="action-buttons__icon">⏸️</span>
           <span>Pause</span>
         </button>
-        <button onClick={onStop} className="action-buttons__stop">
+        {<button onClick={onStop} className="action-buttons__stop">
           <span className="action-buttons__icon">⏹️</span>
           <span>End</span>
-        </button>
+        </button>}
       </div>
     );
   }
