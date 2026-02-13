@@ -1,7 +1,7 @@
 .action-buttons {
   display: flex;
-  gap: 12px;
-  margin-top: 15px;
+  gap: 0.75rem;
+  margin-top: 0.9375rem;
 
   &__clean,
   &__dock,
@@ -9,48 +9,37 @@
   &__resume,
   &__stop {
     flex: 1;
-    background: #232325; // Darker obsidian base
-    border: 1px solid #3a3a3c; // Your base color as the "frame"
-    border-radius: 14px;
-    padding: 14px;
-    font-size: 15px;
+    background: var(--accent-bg); // Darker obsidian base
+    border: 0.0625rem solid var(--accent-bg); // Your base color as the "frame"
+    border-radius: 0.875rem;
+    padding: 0.875rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 0.5rem;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    color: #636366;
+    color: var(--text-primary);
 
-    // --- THE LIGHTER DARK SELECTED STATE ---
     &--selected {
-      /* A "Lighter Dark" navy-charcoal that makes the indigo pop */
-      background: #2a2e3f !important; 
-      
-      /* Vibrant Electric Indigo border */
-      border-color: #5865f2 !important; 
-      
-      /* Pure indigo text */
-      color: #9da5ff !important; 
-      
-      /* 1. Subtle lift + 2. Electric outer glow + 3. Inset "rim" light */
-      transform: translateY(-2px);
+      transform: translateY(-0.125rem);
+      border: 0.0625rem solid var(--toggle-active-border); // Your base color as the "frame"
       box-shadow: 
-        0 10px 20px rgba(0, 0, 0, 0.4),            // Depth shadow
-        0 0 12px rgba(88, 101, 242, 0.25),         // Outer indigo aura
-        inset 0 1px 1px rgba(255, 255, 255, 0.1) !important; // Top edge highlight
+        0 0.625rem 1.25rem rgba(0, 0, 0, 0.4),            // Depth shadow
+        0 0 0.75rem rgba(88, 101, 242, 0.25),         // Outer indigo aura
+        inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.1) !important; // Top edge highlight
     }
   }
 
-  // Maintaining your action colors but keeping them "Dark Mode" friendly
-  &__clean  { color: #ffd60a; border-color: rgba(255, 214, 10, 0.5); }
-  &__pause  { color: #ff9f0a; border-color: rgba(255, 159, 10, 0.5); }
+  &__clean  { color: var(--text-primary-invert); background: var(--accent-color); }
+  &__pause  { color: var(--accent-color); border-color: var(--accent-color-hover); }
   &__resume { color: #32d74b; border-color: rgba(50, 215, 75, 0.5); }
   &__stop   { color: #ff453a; border-color: rgba(255, 69, 58, 0.5); }
 
   &__dock {
-    background: #3a3a3c;
-    color: #8e8e93;
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
   }
 }

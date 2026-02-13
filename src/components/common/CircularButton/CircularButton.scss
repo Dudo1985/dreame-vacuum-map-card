@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 
   &__circle {
     border-radius: 50%;
@@ -11,31 +11,31 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border: 1px solid var(--text-primary, black);
+    border: 0.0625rem solid var(--text-primary, black);
     transition: all 0.2s ease;
 
     &--small {
-      width: 56px;
-      height: 56px;
-      font-size: 24px;
+      width: 3.5rem;
+      height: 3.5rem;
+      font-size: 1.5rem;
     }
 
     &--medium {
-      width: 72px;
-      height: 72px;
-      font-size: 28px;
+      width: 4.5rem;
+      height: 4.5rem;
+      font-size: 1.75rem;
     }
 
     &--large {
-      width: 88px;
-      height: 88px;
-      font-size: 32px;
+      width: 5.5rem;
+      height: 5.5rem;
+      font-size: 2rem;
     }
 
     &--selected {
       background: var(--toggle-active); 
-      border: 3px solid var(--toggle-active-border); 
-      box-shadow: 0 0 0 4px var(--toggle-active-shadow-color);
+      border: 0.1875rem solid var(--toggle-active-border); 
+      box-shadow: 0 0 0 0.25rem var(--toggle-active-shadow-color);
       color: var(--text-primary);
     }
 
@@ -71,7 +71,7 @@
   }
 
   &__label {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--text-primary, #1a1a1a);
     text-align: center;
     line-height: 1.2;

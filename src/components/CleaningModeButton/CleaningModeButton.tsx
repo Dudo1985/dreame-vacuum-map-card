@@ -9,6 +9,7 @@ import {
   MOP_AFTER_VACUUM_ICON_SVG
 } from "../../constants/icons";
 import type { ReactElement } from 'react';
+import { CLEANGENIUS_MODE, CLEANING_MODE } from '../../constants';
 
 interface CleaningModeButtonProps {
   cleaningMode: string;
@@ -23,24 +24,37 @@ interface CleaningModeButtonProps {
 export function CleaningModeButton({ cleaningMode, cleanGeniusMode, cleangenius, onClick, onShortcutsClick, disabled = false, language }: CleaningModeButtonProps) {
   const { t } = useTranslation(language);
   const getIcon = (mode: string): ReactElement => {
-    if (mode.includes('Sweep') && mode.includes('Mop')) return VACUUM_MOP_ICON_SVG;
-    if (mode.includes('after')) return MOP_AFTER_VACUUM_ICON_SVG;
-    if (mode.includes('Mop')) return MOP_ICON_SVG;
-    if (mode.includes('Sweep') || mode.includes('Vacuum')) return VACUUM_ICON_SVG;
+
+    if (mode === CLEANING_MODE.SWEEPING) {
+      return VACUUM_ICON_SVG;
+    }
+
+    if (mode === CLEANING_MODE.MOPPING) {
+      return MOP_ICON_SVG;
+    }
+
+    if (mode === CLEANING_MODE.SWEEPING_AND_MOPPING) {
+      return VACUUM_MOP_ICON_SVG;
+    }
+
+    if (mode === CLEANING_MODE.MOPPING_AFTER_SWEEPING) {
+      return MOP_AFTER_VACUUM_ICON_SVG;
+    }
+
     return VACUUM_MOP_ICON_SVG;
     };
 
   const getCleanGeniusFriendlyName = (mode: string): string => {
-    if (mode === 'Vacuum and mop') return t('cleaning_mode_button.vac_and_mop');
-    if (mode === 'Mop after vacuum') return t('cleaning_mode_button.mop_after_vac');
+    if (mode === CLEANGENIUS_MODE.VACUUM_AND_MOP) return t('cleaning_mode_button.vac_and_mop');
+    if (mode === CLEANGENIUS_MODE.MOP_AFTER_VACUUM) return t('cleaning_mode_button.mop_after_vac');
     return "";
   };
 
   const getCustomCleaningFriendlyName = (mode: string): string => {
-    if (mode === 'Mopping after sweeping') return t('cleaning_mode_button.mop_after_vac');
-    if (mode === 'Sweeping and mopping') return t('cleaning_mode_button.vac_and_mop');
-    if (mode === 'Sweeping') return t('cleaning_mode_button.vacuum');
-    if (mode === 'Mopping') return t('cleaning_mode_button.mop');
+    if (mode === CLEANING_MODE.MOPPING_AFTER_SWEEPING) return t('cleaning_mode_button.mop_after_vac');
+    if (mode === CLEANING_MODE.SWEEPING_AND_MOPPING) return t('cleaning_mode_button.vac_and_mop');
+    if (mode === CLEANING_MODE.SWEEPING) return t('cleaning_mode_button.vacuum');
+    if (mode === CLEANING_MODE.MOPPING) return t('cleaning_mode_button.mop');
     return "";
   };
 

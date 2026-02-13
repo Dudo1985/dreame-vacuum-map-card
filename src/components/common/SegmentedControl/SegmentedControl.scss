@@ -1,16 +1,16 @@
 .segmented-control {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   background: var(--surface-tertiary, #e8e8e8);
-  border-radius: 12px;
-  padding: 4px;
+  border-radius: 0.75rem;
+  padding: 0.25rem;
 
   &__button {
     flex: 1;
     border: none;
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 15px;
+    border-radius: 0.625rem;
+    padding: 0.75rem;
+    font-size: 0.9375rem;
     font-weight: 500;
     cursor: pointer;
     background-color: transparent;
@@ -19,7 +19,7 @@
 
     &--active {
       background-color: var(--surface-bg, white);
-      box-shadow: 0 2px 4px var(--card-shadow, rgba(0, 0, 0, 0.08));
+      box-shadow: 0 0.125rem 0.25rem var(--card-shadow, rgba(0, 0, 0, 0.08));
     }
 
     &:hover:not(&--active) {
