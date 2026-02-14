@@ -27,6 +27,24 @@ export interface Room {
   name: string;
   icon?: string;
   visibility?: string;
+  x0?: number;
+  y0?: number;
+  x1?: number;
+  y1?: number;
+  room_id?: number;
+  order?: number;
+  cleaning_times?: number;
+  suction_level?: number;
+  water_volume?: number;
+  wetness_level?: number;
+  cleaning_mode?: number;
+  cleaning_route?: number;
+  type?: number;
+  index?: number;
+  color_index?: number;
+  floor_material?: string;
+  x?: number;
+  y?: number;
 }
 
 export interface HassConfig {

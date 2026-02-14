@@ -1,7 +1,10 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { Hass, RoomPosition, CleaningMode, Zone } from '../../types/homeassistant';
 import type { SupportedLanguage } from '../../i18n/locales';
 import { useTranslation } from '../../hooks';
+import { parseRoomsFromCamera } from '../../utils/roomParser';
+import { ZoneSelector } from './ZoneSelector';
+import { RoomSegments } from './RoomSegments';
 import './VacuumMap.scss';
 
 interface VacuumMapProps {
@@ -17,14 +20,11 @@ interface VacuumMapProps {
   language?: SupportedLanguage;
 }
 
-type ResizeHandle = 'tl' | 'tr' | 'bl' | 'br' | null;
-
 export function VacuumMap({
   hass,
   mapEntityId,
   selectedMode,
   selectedRooms,
-  rooms,
   onRoomToggle,
   zone,
   onZoneChange,
@@ -36,12 +36,20 @@ export function VacuumMap({
   const mapUrl = mapEntity?.attributes?.entity_picture;
   const mapRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const [resizingHandle, setResizingHandle] = useState<ResizeHandle>(null);
-  const [resizeStartZone, setResizeStartZone] = useState<Zone | null>(null);
+  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+  
+  const parsedRooms = parseRoomsFromCamera(hass, mapEntityId);
+  const calibrationPoints = (mapEntity?.attributes?.calibration_points as any) || [];
+  
+  const zoneSelector = ZoneSelector({
+    zone,
+    onZoneChange,
+    clearZoneLabel: t('vacuum_map.clear_zone'),
+  });
 
   const handleMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (selectedMode !== 'zone') return;
-    if (resizingHandle) return;
+    if (zoneSelector.isResizing()) return;
 
     const rect = mapRef.current?.getBoundingClientRect();
     if (!rect) return;
@@ -66,68 +74,12 @@ export function VacuumMap({
     onZoneChange(newZone);
   };
 
-  const handleResizeStart = (e: React.MouseEvent | React.TouchEvent, handle: ResizeHandle) => {
-    e.stopPropagation();
-    if (!zone) return;
-    
-    setResizingHandle(handle);
-    setResizeStartZone(zone);
-  };
-
-  const getClientPosition = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
-    if ('touches' in e && e.touches.length > 0) {
-      return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
-    }
-    return { clientX: (e as React.MouseEvent).clientX, clientY: (e as React.MouseEvent).clientY };
-  };
-
   const handleResizeMove = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
-    if (!resizingHandle || !resizeStartZone) return;
-
     const rect = mapRef.current?.getBoundingClientRect();
     if (!rect) return;
-
-    const { clientX, clientY } = getClientPosition(e);
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    const xPercent = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    const yPercent = Math.max(0, Math.min(100, (y / rect.height) * 100));
-
-    const newZone: Zone = { ...resizeStartZone };
-
-    switch (resizingHandle) {
-      case 'tl':
-        newZone.x1 = Math.min(xPercent, resizeStartZone.x2 - 5);
-        newZone.y1 = Math.min(yPercent, resizeStartZone.y2 - 5);
-        break;
-      case 'tr':
-        newZone.x2 = Math.max(xPercent, resizeStartZone.x1 + 5);
-        newZone.y1 = Math.min(yPercent, resizeStartZone.y2 - 5);
-        break;
-      case 'bl':
-        newZone.x1 = Math.min(xPercent, resizeStartZone.x2 - 5);
-        newZone.y2 = Math.max(yPercent, resizeStartZone.y1 + 5);
-        break;
-      case 'br':
-        newZone.x2 = Math.max(xPercent, resizeStartZone.x1 + 5);
-        newZone.y2 = Math.max(yPercent, resizeStartZone.y1 + 5);
-        break;
-    }
-
-    onZoneChange(newZone);
+    zoneSelector.handleResizeMove(e, rect);
   };
 
-  const handleResizeEnd = () => {
-    setResizingHandle(null);
-    setResizeStartZone(null);
-  };
-
-  const handleClearZone = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onZoneChange(null);
-    setResizingHandle(null);
-    setResizeStartZone(null);
-  };
 
   return (
     <div 
@@ -135,13 +87,13 @@ export function VacuumMap({
       ref={mapRef} 
       onClick={handleMapClick}
       onMouseMove={handleResizeMove}
-      onMouseUp={handleResizeEnd}
-      onMouseLeave={handleResizeEnd}
+      onMouseUp={zoneSelector.handleResizeEnd}
+      onMouseLeave={zoneSelector.handleResizeEnd}
       onTouchMove={handleResizeMove}
-      onTouchEnd={handleResizeEnd}
-      onTouchCancel={handleResizeEnd}
+      onTouchEnd={zoneSelector.handleResizeEnd}
+      onTouchCancel={zoneSelector.handleResizeEnd}
     >
-      {mapUrl ? (
+      {mapEntity && mapUrl ? (
         <img
           ref={imageRef}
           src={hass.hassUrl(mapUrl)}
@@ -150,6 +102,7 @@ export function VacuumMap({
           onLoad={(e) => {
             const img = e.currentTarget;
             if (img.naturalWidth && img.naturalHeight) {
+              setImageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
               onImageDimensionsChange?.(img.naturalWidth, img.naturalHeight);
             }
           }}
@@ -168,27 +121,16 @@ export function VacuumMap({
             {t('vacuum_map.room_overlay')}
           </div>
 
-          <div className="vacuum-map__rooms">
-            {rooms.map((room) => (
-              <button
-                key={room.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRoomToggle(room.id, room.name);
-                }}
-                className={`vacuum-map__room ${
-                  selectedRooms.has(room.id) ? 'vacuum-map__room--selected' : ''
-                }`}
-                style={{
-                  left: `${room.x}%`,
-                  top: `${room.y}%`,
-                }}
-                title={room.name}
-              >
-                {room.id}
-              </button>
-            ))}
-          </div>
+          {imageDimensions.width > 0 && imageDimensions.height > 0 && (
+            <RoomSegments
+              rooms={parsedRooms}
+              selectedRooms={selectedRooms}
+              onRoomToggle={onRoomToggle}
+              calibrationPoints={calibrationPoints}
+              imageWidth={imageDimensions.width}
+              imageHeight={imageDimensions.height}
+            />
+          )}
         </>
       )}
 
@@ -198,51 +140,7 @@ export function VacuumMap({
             {zone ? t('vacuum_map.zone_overlay_resize') : t('vacuum_map.zone_overlay_create')}
           </div>
 
-          {zone && (
-            <div
-              className="vacuum-map__zone"
-              style={{
-                left: `${zone.x1}%`,
-                top: `${zone.y1}%`,
-                width: `${zone.x2 - zone.x1}%`,
-                height: `${zone.y2 - zone.y1}%`,
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Resize handles */}
-              <div
-                className="vacuum-map__zone-handle vacuum-map__zone-handle--tl"
-                onMouseDown={(e) => handleResizeStart(e, 'tl')}
-                onTouchStart={(e) => handleResizeStart(e, 'tl')}
-                title="Resize"
-              />
-              <div
-                className="vacuum-map__zone-handle vacuum-map__zone-handle--tr"
-                onMouseDown={(e) => handleResizeStart(e, 'tr')}
-                onTouchStart={(e) => handleResizeStart(e, 'tr')}
-                title="Resize"
-              />
-              <div
-                className="vacuum-map__zone-handle vacuum-map__zone-handle--bl"
-                onMouseDown={(e) => handleResizeStart(e, 'bl')}
-                onTouchStart={(e) => handleResizeStart(e, 'bl')}
-                title="Resize"
-              />
-              <div
-                className="vacuum-map__zone-handle vacuum-map__zone-handle--br"
-                onMouseDown={(e) => handleResizeStart(e, 'br')}
-                onTouchStart={(e) => handleResizeStart(e, 'br')}
-                title="Resize"
-              />
-              <button
-                className="vacuum-map__zone-clear"
-                onClick={handleClearZone}
-                title={t('vacuum_map.clear_zone')}
-              >
-                ×
-              </button>
-            </div>
-          )}
+          {zoneSelector.renderZone()}
         </>
       )}
     </div>

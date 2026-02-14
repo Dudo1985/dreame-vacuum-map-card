@@ -1,7 +1,6 @@
 import { Header } from '../Header';
 import { CleaningModeButton } from '../CleaningModeButton';
 import { VacuumMap } from '../VacuumMap';
-import { RoomSelector } from '../RoomSelector';
 import { ModeTabs } from '../ModeTabs';
 import { ActionButtons } from '../ActionButtons';
 import { CleaningModeModal } from '../CleaningModeModal';
@@ -21,6 +20,12 @@ interface DreameVacuumCardProps {
 
 export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
   const entity = hass.states[config.entity];
+  const prevEntityRef = useRef(entity);
+  if (JSON.stringify(prevEntityRef.current) !== JSON.stringify(entity)) {
+    console.debug(hass.states)
+    console.debug('DreameVacuumCard: Rendering with entity', entity);
+    prevEntityRef.current = entity;
+  }
   const themeType = config.theme || 'light';
   const language = config.language || 'en';
   const { t } = useTranslation(language);
@@ -112,27 +117,18 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
       <div className="dreame-vacuum-card__container">
         <Header entity={entity} deviceName={deviceName} />
         
-        {selectedMode === 'room' ? (
-          <RoomSelector
-            rooms={rooms}
-            selectedRooms={selectedRooms}
-            onRoomToggle={handleRoomToggleWithToast}
-            language={language}
-          />
-        ) : (
-          <VacuumMap
-            hass={hass}
-            mapEntityId={mapEntityId}
-            selectedMode={selectedMode}
-            selectedRooms={selectedRooms}
-            rooms={rooms}
-            onRoomToggle={handleRoomToggleWithToast}
-            zone={selectedZone}
-            onZoneChange={setSelectedZone}
-            onImageDimensionsChange={(width, height) => setImageDimensions({ width, height })}
-            language={language}
-          />
-        )}
+        <VacuumMap
+          hass={hass}
+          mapEntityId={mapEntityId}
+          selectedMode={selectedMode}
+          selectedRooms={selectedRooms}
+          rooms={rooms}
+          onRoomToggle={handleRoomToggleWithToast}
+          zone={selectedZone}
+          onZoneChange={setSelectedZone}
+          onImageDimensionsChange={(width, height) => setImageDimensions({ width, height })}
+          language={language}
+        />
 
         <CleaningModeButton 
           cleanGeniusMode={typeof entity.attributes.cleangenius_mode === 'string' ? entity.attributes.cleangenius_mode : ''}
