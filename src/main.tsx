@@ -15,7 +15,7 @@ class DreameVacuumMapCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    
+
     const styleEl = document.createElement('style');
     styleEl.textContent = styles;
     this.shadowRoot!.appendChild(styleEl);
@@ -36,7 +36,7 @@ class DreameVacuumMapCard extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    
+
     // In development mode, use mock data
     if (isDevelopment && !this._hass) {
       this._hass = createMockHass();
@@ -44,12 +44,12 @@ class DreameVacuumMapCard extends HTMLElement {
         entity: devConfig.mockEntityId,
         type: 'custom:dreame-vacuum-map-card',
         title: devConfig.mockEntityTitle,
-        theme: "dark"
+        theme: 'dark',
       };
-      
+
       // Attach dev utilities to window for console access
       attachDevUtils(this._hass, devConfig.mockEntityId);
-      
+
       this.render();
     }
   }
@@ -119,4 +119,3 @@ if (window.customCards) {
 console.info('Dreame Vacuum Map Card (React) loaded');
 
 export default DreameVacuumMapCard;
-

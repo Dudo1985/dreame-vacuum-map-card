@@ -18,26 +18,20 @@ interface ShortcutsModalProps {
   language?: SupportedLanguage;
 }
 
-export function ShortcutsModal({
-  opened,
-  onClose,
-  entity,
-  hass,
-  language,
-}: ShortcutsModalProps) {
+export function ShortcutsModal({ opened, onClose, entity, hass, language }: ShortcutsModalProps) {
   const { t } = useTranslation(language);
   const shortcutsObj = (entity.attributes.shortcuts || {}) as Record<string, ShortcutData>;
   const shortcuts = Object.entries(shortcutsObj).map(([id, data]) => ({
     id: parseInt(id),
     ...data,
   }));
-  
+
   const handleShortcutClick = (shortcutId: number) => {
     hass.callService('dreame_vacuum', 'vacuum_start_shortcut', {
       entity_id: entity.entity_id,
       shortcut_id: shortcutId,
     });
-    
+
     onClose();
   };
 
@@ -45,13 +39,11 @@ export function ShortcutsModal({
     <Modal opened={opened} onClose={onClose}>
       <div className="shortcuts-modal">
         <h2 className="shortcuts-modal__title">{t('shortcuts.title')}</h2>
-        
+
         {shortcuts.length === 0 ? (
           <div className="shortcuts-modal__empty">
             <p>{t('shortcuts.no_shortcuts')}</p>
-            <p className="shortcuts-modal__empty-hint">
-              {t('shortcuts.create_hint')}
-            </p>
+            <p className="shortcuts-modal__empty-hint">{t('shortcuts.create_hint')}</p>
           </div>
         ) : (
           <div className="shortcuts-modal__list">

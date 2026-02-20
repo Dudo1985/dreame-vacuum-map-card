@@ -3,13 +3,7 @@
  * Handles snake_case conversion for Home Assistant service calls
  */
 
-import {
-  SERVICE_VALUE,
-  CLEANING_MODE,
-  CLEANGENIUS_MODE,
-  CLEANGENIUS_STATE,
-  SELF_CLEAN_FREQUENCY,
-} from '../constants';
+import { SERVICE_VALUE, CLEANING_MODE, CLEANGENIUS_MODE, CLEANGENIUS_STATE, SELF_CLEAN_FREQUENCY } from '../constants';
 import type { CleaningMode, CleanGeniusMode, CleanGeniusState, SelfCleanFrequency } from '../types/vacuum';
 
 export function convertCleaningModeToService(mode: CleaningMode): string {

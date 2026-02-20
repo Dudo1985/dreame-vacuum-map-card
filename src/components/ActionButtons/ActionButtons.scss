@@ -26,17 +26,31 @@
     &--selected {
       transform: translateY(-0.125rem);
       border: 0.0625rem solid var(--toggle-active-border); // Your base color as the "frame"
-      box-shadow: 
-        0 0.625rem 1.25rem rgba(0, 0, 0, 0.4),            // Depth shadow
-        0 0 0.75rem rgba(88, 101, 242, 0.25),         // Outer indigo aura
+      box-shadow:
+        0 0.625rem 1.25rem rgba(0, 0, 0, 0.4),
+        // Depth shadow
+        0 0 0.75rem rgba(88, 101, 242, 0.25),
+        // Outer indigo aura
         inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.1) !important; // Top edge highlight
     }
   }
 
-  &__clean  { color: var(--text-primary-invert); background: var(--accent-color); }
-  &__pause  { color: var(--accent-color); border-color: var(--accent-color-hover); }
-  &__resume { color: #32d74b; border-color: rgba(50, 215, 75, 0.5); }
-  &__stop   { color: #ff453a; border-color: rgba(255, 69, 58, 0.5); }
+  &__clean {
+    color: var(--text-primary-invert);
+    background: var(--accent-color);
+  }
+  &__pause {
+    color: var(--accent-color);
+    border-color: var(--accent-color-hover);
+  }
+  &__resume {
+    color: #32d74b;
+    border-color: rgba(50, 215, 75, 0.5);
+  }
+  &__stop {
+    color: #ff453a;
+    border-color: rgba(255, 69, 58, 0.5);
+  }
 
   &__dock {
     background: var(--surface-secondary);

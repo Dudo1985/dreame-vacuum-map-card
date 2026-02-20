@@ -45,9 +45,9 @@ export interface VacuumZone {
 /**
  * Converts image pixel coordinates to vacuum coordinates using map dimensions.
  * This is the inverse of the to_img() function in the Python backend.
- * 
+ *
  * @param imgX - X coordinate in image pixels
- * @param imgY - Y coordinate in image pixels  
+ * @param imgY - Y coordinate in image pixels
  * @param dimensions - Map dimensions from entity attributes
  * @returns Vacuum coordinates (x, y)
  */
@@ -62,7 +62,7 @@ function imageToVacuum(imgX: number, imgY: number, dimensions: MapDimensions): {
 
   // Inverse of: img_x = ((vacuum_x - left) / grid_size) * scale + padding[0] - crop[0]
   const vacuumX = ((imgX + crop[0] - padding[0]) / scale) * gridSize + left;
-  
+
   // Inverse of: img_y = (((height * grid_size - 1) - (vacuum_y - top)) / grid_size) * scale + padding[1] - crop[1]
   const vacuumY = top + (height * gridSize - 1) - ((imgY + crop[1] - padding[1]) / scale) * gridSize;
 
@@ -71,7 +71,7 @@ function imageToVacuum(imgX: number, imgY: number, dimensions: MapDimensions): {
 
 /**
  * Converts a UI zone (percentage of image) to vacuum coordinates using map dimensions.
- * 
+ *
  * @param uiZone - Zone in UI coordinates (0-100 percentage)
  * @param mapEntity - Map entity with attributes containing dimensions
  * @param imageWidth - Actual width of the map image in pixels
@@ -86,7 +86,7 @@ export function convertUIZoneToVacuumZone(
 ): VacuumZone {
   // Try to get dimensions from map entity
   const dimensions = getMapDimensions(mapEntity);
-  
+
   // If no dimensions available, fall back to calibration-based method
   if (!dimensions) {
     const calibrationPoints = getCalibrationPoints(mapEntity);
@@ -123,7 +123,7 @@ function convertUsingCalibration(
   if (!calibrationPoints || calibrationPoints.length < 3) {
     const MAP_SIZE = 12000;
     const MAP_OFFSET = 6000;
-    
+
     return {
       x1: Math.round((uiZone.x1 / 100) * MAP_SIZE - MAP_OFFSET),
       y1: Math.round((uiZone.y1 / 100) * MAP_SIZE - MAP_OFFSET),
@@ -162,7 +162,7 @@ function convertUsingCalibration(
  */
 export function getCalibrationPoints(mapEntity: HassEntity | undefined): CalibrationPoint[] | null {
   const calibration = mapEntity?.attributes?.calibration_points;
-  
+
   if (!calibration || !Array.isArray(calibration) || calibration.length < 3) {
     return null;
   }
@@ -181,7 +181,7 @@ export function getCalibrationPoints(mapEntity: HassEntity | undefined): Calibra
  */
 export function getMapDimensions(mapEntity: HassEntity | undefined): MapDimensions | null {
   const attrs = mapEntity?.attributes;
-  
+
   if (!attrs) {
     return null;
   }
@@ -195,9 +195,9 @@ export function getMapDimensions(mapEntity: HassEntity | undefined): MapDimensio
 
   if (top !== undefined && left !== undefined && height && width && gridSize) {
     const scale = typeof attrs.scale === 'number' ? attrs.scale : 1;
-    const padding = Array.isArray(attrs.padding) ? attrs.padding as number[] : [0, 0, 0, 0];
-    const crop = Array.isArray(attrs.crop) ? attrs.crop as number[] : [0, 0, 0, 0];
-    
+    const padding = Array.isArray(attrs.padding) ? (attrs.padding as number[]) : [0, 0, 0, 0];
+    const crop = Array.isArray(attrs.crop) ? (attrs.crop as number[]) : [0, 0, 0, 0];
+
     return {
       top,
       left,
@@ -220,11 +220,11 @@ export function getImageDimensions(mapEntity: HassEntity | undefined): { width: 
   // Try to get dimensions from attributes
   const width = typeof mapEntity?.attributes?.width === 'number' ? mapEntity.attributes.width : undefined;
   const height = typeof mapEntity?.attributes?.height === 'number' ? mapEntity.attributes.height : undefined;
-  
+
   if (width && height) {
     return { width, height };
   }
-  
+
   // If not available, we'll need to get them from the actual image
   // This would require loading the image first
   return null;

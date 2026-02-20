@@ -10,7 +10,7 @@ interface ResumeButtonProps {
 
 export function ResumeButton({ onClick, language = 'en' }: ResumeButtonProps) {
   const { t } = useTranslation(language);
-  
+
   return (
     <button onClick={onClick} className="action-buttons__resume">
       <span className="action-buttons__icon">{RESUME_CLEANING_ICON_SVG}</span>

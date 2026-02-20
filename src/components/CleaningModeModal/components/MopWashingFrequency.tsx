@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { CircularButton } from '../../common';
 import type { SelfCleanFrequency } from '../../../types/vacuum';
-import {
-  getSelfCleanFrequencyIcon,
-  convertSelfCleanFrequencyToService,
-} from '../../../utils';
+import { getSelfCleanFrequencyIcon, convertSelfCleanFrequencyToService } from '../../../utils';
 
 interface MopWashingFrequencyProps {
   selfCleanFrequency: string;
@@ -41,14 +38,14 @@ export function MopWashingFrequency({
 }: MopWashingFrequencyProps) {
   const [localArea, setLocalArea] = useState(selfCleanArea);
   const [localTime, setLocalTime] = useState(selfCleanTime);
-  
+
   const selfCleanAreaPercent = ((localArea - selfCleanAreaMin) / (selfCleanAreaMax - selfCleanAreaMin)) * 100;
   const selfCleanTimePercent = ((localTime - selfCleanTimeMin) / (selfCleanTimeMax - selfCleanTimeMin)) * 100;
 
   // Calculate tooltip position accounting for thumb width (20px = 1.25rem)
   const thumbWidth = 20; // in pixels
-  const areaTooltipLeft = `calc(${selfCleanAreaPercent}% + ${(thumbWidth / 2) - (selfCleanAreaPercent * thumbWidth / 100)}px)`;
-  const timeTooltipLeft = `calc(${selfCleanTimePercent}% + ${(thumbWidth / 2) - (selfCleanTimePercent * thumbWidth / 100)}px)`;
+  const areaTooltipLeft = `calc(${selfCleanAreaPercent}% + ${thumbWidth / 2 - (selfCleanAreaPercent * thumbWidth) / 100}px)`;
+  const timeTooltipLeft = `calc(${selfCleanTimePercent}% + ${thumbWidth / 2 - (selfCleanTimePercent * thumbWidth) / 100}px)`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
@@ -76,7 +73,9 @@ export function MopWashingFrequency({
             <CircularButton
               size="small"
               selected={freq === selfCleanFrequency}
-              onClick={() => onSelectFrequency(frequencyEntityId, convertSelfCleanFrequencyToService(freq as SelfCleanFrequency))}
+              onClick={() =>
+                onSelectFrequency(frequencyEntityId, convertSelfCleanFrequencyToService(freq as SelfCleanFrequency))
+              }
               icon={getSelfCleanFrequencyIcon(freq as SelfCleanFrequency)}
             />
             <span className="cleaning-mode-modal__mode-option-label">{freq}</span>
@@ -98,15 +97,16 @@ export function MopWashingFrequency({
               onTouchEnd={handleCommit}
               className="cleaning-mode-modal__slider"
               style={{
-                background: selfCleanFrequency === 'By area'
-                  ? `linear-gradient(to right, var(--accent-bg-secondary) 0%, var(--accent-bg-secondary) ${selfCleanAreaPercent}%, var(--accent-bg-secondary-hover) ${selfCleanAreaPercent}%, var(--accent-bg-secondary-hover) 100%)`
-                  : `linear-gradient(to right, var(--accent-bg-secondary) 0%, var(--accent-bg-secondary) ${selfCleanTimePercent}%, var(--accent-bg-secondary-hover) ${selfCleanTimePercent}%, var(--accent-bg-secondary-hover) 100%)`
+                background:
+                  selfCleanFrequency === 'By area'
+                    ? `linear-gradient(to right, var(--accent-bg-secondary) 0%, var(--accent-bg-secondary) ${selfCleanAreaPercent}%, var(--accent-bg-secondary-hover) ${selfCleanAreaPercent}%, var(--accent-bg-secondary-hover) 100%)`
+                    : `linear-gradient(to right, var(--accent-bg-secondary) 0%, var(--accent-bg-secondary) ${selfCleanTimePercent}%, var(--accent-bg-secondary-hover) ${selfCleanTimePercent}%, var(--accent-bg-secondary-hover) 100%)`,
               }}
             />
-            <div 
+            <div
               className="cleaning-mode-modal__slider-tooltip"
               style={{
-                left: selfCleanFrequency === 'By area' ? areaTooltipLeft : timeTooltipLeft
+                left: selfCleanFrequency === 'By area' ? areaTooltipLeft : timeTooltipLeft,
               }}
             >
               {selfCleanFrequency === 'By area' ? `${localArea}m²` : `${localTime}m`}

@@ -1,9 +1,6 @@
 import { CircularButton } from '../../common';
 import type { CleaningRoute } from '../../../types/vacuum';
-import {
-  getCleaningRouteIcon,
-  convertToLowerCase,
-} from '../../../utils';
+import { getCleaningRouteIcon, convertToLowerCase } from '../../../utils';
 
 interface RouteSelectorProps {
   cleaningRoute: string;
@@ -12,12 +9,7 @@ interface RouteSelectorProps {
   entityId: string;
 }
 
-export function RouteSelector({
-  cleaningRoute,
-  cleaningRouteList,
-  onSelect,
-  entityId,
-}: RouteSelectorProps) {
+export function RouteSelector({ cleaningRoute, cleaningRouteList, onSelect, entityId }: RouteSelectorProps) {
   return (
     <div className="cleaning-mode-modal__route-grid">
       {cleaningRouteList.map((route, idx) => (

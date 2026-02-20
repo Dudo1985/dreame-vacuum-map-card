@@ -9,16 +9,16 @@ interface CircularButtonProps {
   iconStyle?: React.CSSProperties;
 }
 
-export function CircularButton({ 
-  icon, 
-  label, 
-  selected = false, 
+export function CircularButton({
+  icon,
+  label,
+  selected = false,
   onClick,
   size = 'medium',
-  iconStyle = {}
+  iconStyle = {},
 }: CircularButtonProps) {
   const isSvg = typeof icon === 'string' && icon.trim().startsWith('<svg');
-  
+
   return (
     <div className="circular-button">
       <button
@@ -29,12 +29,14 @@ export function CircularButton({
       >
         {typeof icon === 'string' ? (
           isSvg ? (
-            <span 
-              className="circular-button__icon circular-button__icon--svg" 
+            <span
+              className="circular-button__icon circular-button__icon--svg"
               dangerouslySetInnerHTML={{ __html: icon }}
             />
           ) : (
-            <span className="circular-button__icon" style={iconStyle}>{icon}</span>
+            <span className="circular-button__icon" style={iconStyle}>
+              {icon}
+            </span>
           )
         ) : (
           icon

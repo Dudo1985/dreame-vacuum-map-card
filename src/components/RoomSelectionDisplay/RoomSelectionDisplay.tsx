@@ -9,7 +9,7 @@ interface RoomSelectionDisplayProps {
 
 export function RoomSelectionDisplay({ selectedRooms, language }: RoomSelectionDisplayProps) {
   const { t } = useTranslation(language);
-  
+
   if (selectedRooms.size === 0) {
     return null;
   }

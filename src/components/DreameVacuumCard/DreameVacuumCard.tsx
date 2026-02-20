@@ -23,7 +23,7 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
   const themeType = config.theme || 'light';
   const language = config.language || 'en';
   const { t } = useTranslation(language);
-  
+
   // Container ref for applying theme
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -55,12 +55,7 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
   const { toast, showToast, hideToast } = useToast();
 
   // Vacuum services
-  const {
-    handlePause,
-    handleStop,
-    handleDock,
-    handleClean,
-  } = useVacuumServices({
+  const { handlePause, handleStop, handleDock, handleClean } = useVacuumServices({
     hass,
     entityId: config.entity,
     mapEntityId: config.map_entity || `camera.${config.entity.split('.')[1]}_map`,
@@ -72,18 +67,14 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
   const handleRoomToggleWithToast = (roomId: number, roomName: string) => {
     const wasSelected = selectedRooms.has(roomId);
     handleRoomToggle(roomId, roomName);
-    showToast(wasSelected ? t('toast.deselected_room', { name: roomName }) : t('toast.selected_room', { name: roomName }));
+    showToast(
+      wasSelected ? t('toast.deselected_room', { name: roomName }) : t('toast.selected_room', { name: roomName })
+    );
   };
 
   // Handle clean action
   const handleCleanAction = () => {
-    handleClean(
-      selectedMode, 
-      selectedRooms, 
-      selectedZone,
-      imageDimensions?.width,
-      imageDimensions?.height
-    );
+    handleClean(selectedMode, selectedRooms, selectedZone, imageDimensions?.width, imageDimensions?.height);
   };
 
   // Handle resume (just calls start)
@@ -110,7 +101,7 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
     <div ref={containerRef} className={`dreame-vacuum-card dreame-vacuum-card--${theme.name}`}>
       <div className="dreame-vacuum-card__container">
         <Header entity={entity} deviceName={deviceName} />
-        
+
         <VacuumMap
           hass={hass}
           mapEntityId={mapEntityId}
@@ -125,34 +116,42 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
           isStarted={typeof entity.attributes.started === 'boolean' ? entity.attributes.started : false}
         />
 
-        <CleaningModeButton 
-          cleanGeniusMode={typeof entity.attributes.cleangenius_mode === 'string' ? entity.attributes.cleangenius_mode : ''}
-          cleaningMode={typeof entity.attributes.cleaning_mode === 'string' ? entity.attributes.cleaning_mode : 'Sweeping and mopping'} 
+        <CleaningModeButton
+          cleanGeniusMode={
+            typeof entity.attributes.cleangenius_mode === 'string' ? entity.attributes.cleangenius_mode : ''
+          }
+          cleaningMode={
+            typeof entity.attributes.cleaning_mode === 'string'
+              ? entity.attributes.cleaning_mode
+              : 'Sweeping and mopping'
+          }
           cleangenius={typeof entity.attributes.cleangenius === 'string' ? entity.attributes.cleangenius : 'Off'}
-          onClick={() => setModalOpened(true)} 
+          onClick={() => setModalOpened(true)}
           onShortcutsClick={() => setShortcutsModalOpened(true)}
           disabled={typeof entity.attributes.started === 'boolean' ? entity.attributes.started : false}
           language={language}
         />
 
         <div className="dreame-vacuum-card__controls">
-          {selectedMode === 'room' && (
-            <RoomSelectionDisplay selectedRooms={selectedRooms} language={language} />
-          )}
-          
-          <ModeTabs 
-            selectedMode={effectiveMode} 
-            onModeChange={handleModeChange} 
+          {selectedMode === 'room' && <RoomSelectionDisplay selectedRooms={selectedRooms} language={language} />}
+
+          <ModeTabs
+            selectedMode={effectiveMode}
+            onModeChange={handleModeChange}
             disabled={typeof entity.attributes.started === 'boolean' ? entity.attributes.started : false}
             language={language}
           />
-          
+
           <ActionButtons
             selectedMode={selectedMode}
             selectedRoomsCount={selectedRooms.size}
             isRunning={typeof entity.attributes.running === 'boolean' ? entity.attributes.running : false}
             isPaused={typeof entity.attributes.paused === 'boolean' ? entity.attributes.paused : false}
-            isDocked={entity.state === "docked" || (typeof entity.attributes.docked === 'boolean' && entity.attributes.docked) || false}
+            isDocked={
+              entity.state === 'docked' ||
+              (typeof entity.attributes.docked === 'boolean' && entity.attributes.docked) ||
+              false
+            }
             onClean={handleCleanAction}
             onPause={handlePause}
             onResume={handleResume}

@@ -17,9 +17,7 @@ export function SegmentedControl({ options, value, onChange }: SegmentedControlP
       {options.map((option) => (
         <button
           key={option.value}
-          className={`segmented-control__button ${
-            value === option.value ? 'segmented-control__button--active' : ''
-          }`}
+          className={`segmented-control__button ${value === option.value ? 'segmented-control__button--active' : ''}`}
           onClick={() => onChange(option.value)}
         >
           {option.label}

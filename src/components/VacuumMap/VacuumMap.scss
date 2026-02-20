@@ -16,7 +16,7 @@
     object-fit: contain;
     border-radius: 0.9375rem;
   }
-  
+
   // Dark mode filter for map image
   .dreame-vacuum-card--dark & &__image {
     filter: brightness(0.8) contrast(0.9) saturate(0.85);
@@ -178,15 +178,15 @@
 
     &:hover {
       fill: var(--accent-bg-transparent, rgba(212, 175, 55, 0.2));
-      stroke: var(--accent-color, #D4AF37);
+      stroke: var(--accent-color, #d4af37);
       stroke-width: 3;
     }
 
     &--selected {
       fill: var(--accent-bg-transparent, rgba(212, 175, 55, 0.3));
-      stroke: var(--accent-color, #D4AF37);
+      stroke: var(--accent-color, #d4af37);
       stroke-width: 3;
-      
+
       &:hover {
         fill: var(--accent-bg-transparent, rgba(212, 175, 55, 0.4));
       }
@@ -229,9 +229,9 @@
     }
 
     &--selected {
-      background: var(--accent-color, #D4AF37);
+      background: var(--accent-color, #d4af37);
       color: white;
-      border-color: var(--accent-color, #D4AF37);
+      border-color: var(--accent-color, #d4af37);
       box-shadow: 0 0.125rem 0.5rem var(--accent-color-shadow-color, rgba(212, 175, 55, 0.4));
 
       &:hover {

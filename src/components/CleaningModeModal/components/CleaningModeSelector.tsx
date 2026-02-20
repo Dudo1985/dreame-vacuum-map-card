@@ -1,10 +1,6 @@
 import { CircularButton } from '../../common';
 import type { CleaningMode } from '../../../types/vacuum';
-import {
-  getCleaningModeIcon,
-  convertCleaningModeToService,
-  getCleaningModeFriendlyName,
-} from '../../../utils';
+import { getCleaningModeIcon, convertCleaningModeToService, getCleaningModeFriendlyName } from '../../../utils';
 
 interface CleaningModeSelectorProps {
   cleaningMode: string;

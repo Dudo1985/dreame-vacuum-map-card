@@ -94,7 +94,8 @@ export const ru: Translation = {
   custom_mode: {
     cleaning_mode_title: 'Режим уборки',
     suction_power_title: 'Мощность всасывания',
-    max_plus_description: 'Мощность всасывания будет увеличена до максимального уровня, что соответствует режиму одноразового использования.',
+    max_plus_description:
+      'Мощность всасывания будет увеличена до максимального уровня, что соответствует режиму одноразового использования.',
     wetness_title: 'Влажность',
     slightly_dry: 'Слегка сухая',
     moist: 'Влажная',
@@ -121,4 +122,3 @@ export const ru: Translation = {
     failed_to_load: 'Не удалось получить данные сущности',
   },
 };
-

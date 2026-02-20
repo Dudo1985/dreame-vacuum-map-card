@@ -10,7 +10,7 @@ interface DockButtonProps {
 
 export function DockButton({ onClick, language = 'en' }: DockButtonProps) {
   const { t } = useTranslation(language);
-  
+
   return (
     <button onClick={onClick} className="action-buttons__dock">
       <span className="action-buttons__icon">{DOCK_ICON_SVG}</span>

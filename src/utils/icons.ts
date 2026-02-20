@@ -24,7 +24,7 @@ import {
   CLEANING_ROUTE_DEEP_ICON_SVG,
   MOP_WASHING_FREQUENCY_BY_AREA_ICON_SVG,
   MOP_WASHING_FREQUENCY_BY_TIME_ICON_SVG,
-  MOP_WASHING_FREQUENCY_BY_ROOM_ICON_SVG
+  MOP_WASHING_FREQUENCY_BY_ROOM_ICON_SVG,
 } from '../constants';
 import type { CleaningMode, CleanGeniusMode, SuctionLevel, CleaningRoute, SelfCleanFrequency } from '../types/vacuum';
 

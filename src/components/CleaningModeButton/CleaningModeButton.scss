@@ -18,19 +18,21 @@
     cursor: pointer;
     font-size: 1.1rem;
     flex-shrink: 0;
-    transition: transform 0.2s, opacity 0.2s;
+    transition:
+      transform 0.2s,
+      opacity 0.2s;
     box-shadow: 0 0.125rem 0.5rem var(--card-shadow, rgba(0, 0, 0, 0.08));
 
     svg {
       scale: 0.8;
     }
-    
+
     &:hover:not(:disabled) {
       transform: scale(1.1);
       opacity: 0.9;
       box-shadow: 0 0.25rem 0.75rem var(--card-shadow-hover, rgba(0, 0, 0, 0.12));
     }
-    
+
     &:active:not(:disabled) {
       transform: scale(0.95);
     }
@@ -93,4 +95,3 @@
     color: var(--text-tertiary, #999);
   }
 }
-

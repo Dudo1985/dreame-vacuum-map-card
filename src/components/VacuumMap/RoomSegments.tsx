@@ -56,19 +56,17 @@ export function RoomSegments({
     >
       {roomPaths.map(({ room, path }) => {
         const isSelected = selectedRooms.has(room.id);
-        
+
         if (!path) {
           console.warn('No path for room:', room.id, room.name);
           return null;
         }
-        
+
         return (
           <path
             key={room.id}
             d={path}
-            className={`vacuum-map__room-segment ${
-              isSelected ? 'vacuum-map__room-segment--selected' : ''
-            }`}
+            className={`vacuum-map__room-segment ${isSelected ? 'vacuum-map__room-segment--selected' : ''}`}
             fill={isSelected ? 'var(--accent-bg, rgba(212, 175, 55, 0.3))' : 'transparent'}
             stroke={!isStarted && isSelected ? 'var(--accent-color, #D4AF37)' : 'rgba(255, 255, 255, 0.2)'}
             strokeWidth="2"

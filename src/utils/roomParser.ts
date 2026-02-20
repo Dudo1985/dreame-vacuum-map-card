@@ -29,7 +29,7 @@ export function parseRoomsFromCamera(hass: Hass, cameraEntityId: string): Room[]
   }
 
   const roomsData = cameraEntity.attributes.rooms as unknown as Record<string, CameraRoomData>;
-  
+
   return Object.values(roomsData).map((room) => ({
     id: room.room_id,
     name: room.name,
@@ -61,7 +61,7 @@ export function vacuumToMapCoordinates(
     const vacuumRange = 20000;
     const normalizedX = (vacuumX + 10000) / vacuumRange;
     const normalizedY = (vacuumY + 10000) / vacuumRange;
-    
+
     return {
       x: normalizedX * imageWidth,
       y: normalizedY * imageHeight,

@@ -1,10 +1,6 @@
 import { CircularButton, Toggle } from '../../common';
 import type { SuctionLevel } from '../../../types/vacuum';
-import {
-  getSuctionLevelIcon,
-  convertToLowerCase,
-  getSuctionLevelFriendlyName,
-} from '../../../utils';
+import { getSuctionLevelIcon, convertToLowerCase, getSuctionLevelFriendlyName } from '../../../utils';
 
 interface SuctionPowerSelectorProps {
   suctionLevel: string;
@@ -49,14 +45,12 @@ export function SuctionPowerSelector({
       <div className="cleaning-mode-modal__max-plus">
         <div className="cleaning-mode-modal__max-plus-header">
           <span className="cleaning-mode-modal__max-plus-title">Max+</span>
-          <Toggle 
-            checked={maxSuctionPower} 
-            onChange={(checked) => onToggleMaxPower(maxSuctionPowerEntityId, checked)} 
+          <Toggle
+            checked={maxSuctionPower}
+            onChange={(checked) => onToggleMaxPower(maxSuctionPowerEntityId, checked)}
           />
         </div>
-        <p className="cleaning-mode-modal__max-plus-description">
-          {maxPlusDescription}
-        </p>
+        <p className="cleaning-mode-modal__max-plus-description">{maxPlusDescription}</p>
       </div>
     </>
   );

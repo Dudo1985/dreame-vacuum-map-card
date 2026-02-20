@@ -39,10 +39,10 @@ export function VacuumMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
-  
+
   const parsedRooms = parseRoomsFromCamera(hass, mapEntityId);
   const calibrationPoints = (mapEntity?.attributes?.calibration_points as CalibrationPoint[] | undefined) ?? [];
-  
+
   const zoneSelector = ZoneSelector({
     zone,
     onZoneChange,
@@ -83,11 +83,10 @@ export function VacuumMap({
     zoneSelector.handleResizeMove(e, rect);
   };
 
-
   return (
-    <div 
-      className="vacuum-map" 
-      ref={mapRef} 
+    <div
+      className="vacuum-map"
+      ref={mapRef}
       onClick={handleMapClick}
       onMouseMove={handleResizeMove}
       onMouseUp={zoneSelector.handleResizeEnd}
@@ -120,9 +119,7 @@ export function VacuumMap({
 
       {selectedMode === 'room' && (
         <>
-          <div className="vacuum-map__overlay">
-            {t('vacuum_map.room_overlay')}
-          </div>
+          <div className="vacuum-map__overlay">{t('vacuum_map.room_overlay')}</div>
 
           {imageDimensions.width > 0 && imageDimensions.height > 0 && (
             <RoomSegments

@@ -59,9 +59,10 @@
   &__stat-icon {
     display: flex;
 
-    &--cleaning-time, &--area {
-      display: flex; 
-      
+    &--cleaning-time,
+    &--area {
+      display: flex;
+
       svg {
         scale: 0.8;
       }

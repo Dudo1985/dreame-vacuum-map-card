@@ -15,13 +15,7 @@ export function Toggle({ checked = false, onChange, disabled = false }: TogglePr
 
   return (
     <label className={`toggle ${disabled ? 'toggle--disabled' : ''}`}>
-      <input
-        type="checkbox"
-        className="toggle__input"
-        checked={checked}
-        onChange={handleChange}
-        disabled={disabled}
-      />
+      <input type="checkbox" className="toggle__input" checked={checked} onChange={handleChange} disabled={disabled} />
       <span className="toggle__slider">
         <span className="toggle__knob" />
       </span>

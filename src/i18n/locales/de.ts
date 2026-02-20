@@ -13,7 +13,8 @@ export const de: Translation = {
     looking_for: 'Suche nach: {{entity}}',
     room_overlay: 'Klicken Sie auf Raumnummern, um Räume zum Reinigen auszuwählen',
     zone_overlay_create: 'Klicken Sie auf die Karte, um eine Reinigungszone zu platzieren',
-    zone_overlay_resize: 'Ziehen Sie an den Ecken, um die Größe zu ändern, oder klicken Sie woanders, um neu zu positionieren',
+    zone_overlay_resize:
+      'Ziehen Sie an den Ecken, um die Größe zu ändern, oder klicken Sie woanders, um neu zu positionieren',
     clear_zone: 'Zone löschen',
   },
 
@@ -87,7 +88,8 @@ export const de: Translation = {
   shortcuts: {
     title: 'Verknüpfungen',
     no_shortcuts: 'Keine Verknüpfungen verfügbar',
-    create_hint: 'Erstellen Sie Verknüpfungen in der Dreame-App, um Ihre bevorzugten Reinigungsroutinen schnell zu starten',
+    create_hint:
+      'Erstellen Sie Verknüpfungen in der Dreame-App, um Ihre bevorzugten Reinigungsroutinen schnell zu starten',
   },
 
   // Custom Mode

@@ -46,12 +46,12 @@ export function createMockHass(): Hass {
 
   const hass: Hass = {
     states,
-    
+
     hassUrl: (path: string) => {
       console.log('[Mock Hass] hassUrl called:', path);
       return `${devConfig.mockServerUrl}${path}`;
     },
-    
+
     callService: async (domain: string, service: string, serviceData?: Record<string, unknown>) => {
       console.log('[Mock Hass] Service called:', {
         domain,
@@ -66,8 +66,8 @@ export function createMockHass(): Hass {
       }
 
       // Simulate delay
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       console.log('[Mock Hass] Service completed:', { domain, service });
     },
   };
@@ -82,7 +82,7 @@ function handleVacuumService(
 ) {
   const entityId = (serviceData?.entity_id as string | undefined) || data.entity_id;
   const entity = states[entityId];
-  
+
   if (!entity) {
     console.warn('[Mock Hass] Entity not found:', entityId);
     return;
@@ -97,13 +97,13 @@ function handleVacuumService(
       entity.attributes.running = true;
       entity.attributes.started = true;
       break;
-      
+
     case 'pause':
       entity.state = 'paused';
       entity.attributes.paused = true;
       entity.attributes.running = false;
       break;
-      
+
     case 'stop':
     case 'turn_off':
       entity.state = 'idle';
@@ -111,13 +111,13 @@ function handleVacuumService(
       entity.attributes.started = false;
       entity.attributes.paused = false;
       break;
-      
+
     case 'return_to_base':
       entity.state = 'returning';
       entity.attributes.returning = true;
       entity.attributes.running = false;
       break;
-      
+
     case 'clean_segment':
     case 'clean_spot':
     case 'clean_zone':
@@ -127,22 +127,22 @@ function handleVacuumService(
       entity.attributes.zone_cleaning = service === 'clean_zone';
       entity.attributes.spot_cleaning = service === 'clean_spot';
       break;
-      
+
     case 'locate':
       console.log('[Mock Hass] Vacuum locate called');
       break;
-      
+
     case 'send_command':
       console.log('[Mock Hass] Custom command:', serviceData?.command);
       break;
-      
+
     default:
       console.log('[Mock Hass] Unhandled vacuum service:', service);
   }
 
   // Update timestamps
   entity.last_updated = new Date().toISOString();
-  
+
   console.log('[Mock Hass] Updated entity state:', {
     entity_id: entityId,
     state: entity.state,
@@ -150,15 +150,11 @@ function handleVacuumService(
       running: entity.attributes.running,
       paused: entity.attributes.paused,
       docked: entity.attributes.docked,
-    }
+    },
   });
 }
 
-export function updateMockEntityState(
-  hass: Hass,
-  entityId: string,
-  updates: Partial<HassEntity>
-) {
+export function updateMockEntityState(hass: Hass, entityId: string, updates: Partial<HassEntity>) {
   if (hass.states[entityId]) {
     Object.assign(hass.states[entityId], updates);
     hass.states[entityId].last_updated = new Date().toISOString();

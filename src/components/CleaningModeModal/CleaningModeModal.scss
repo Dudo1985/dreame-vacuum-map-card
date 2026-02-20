@@ -85,12 +85,14 @@
     }
 
     &--selected {
-      border: 0.1875rem solid var(--accent-color, #D4AF37);
+      border: 0.1875rem solid var(--accent-color, #d4af37);
       box-shadow: 0 0 0 0.25rem var(--accent-color-shadow-color, rgba(212, 175, 55, 0.15));
 
       &:hover {
         transform: translateY(-0.125rem);
-        box-shadow: 0 0 0 0.25rem var(--accent-color-shadow-color, rgba(88, 101, 242, 0.25)), 0 0.25rem 0.75rem var(--card-shadow, rgba(0, 0, 0, 0.08));
+        box-shadow:
+          0 0 0 0.25rem var(--accent-color-shadow-color, rgba(88, 101, 242, 0.25)),
+          0 0.25rem 0.75rem var(--card-shadow, rgba(0, 0, 0, 0.08));
       }
     }
   }
@@ -117,7 +119,7 @@
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
-    background: var(--accent-color, #D4AF37);
+    background: var(--accent-color, #d4af37);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -130,8 +132,8 @@
     display: flex;
     gap: 4rem;
     overflow-x: auto;
-    padding-bottom: .5rem;
-    padding-top: .5rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
     padding-left: 1.5rem;
 
     &::-webkit-scrollbar {
@@ -239,7 +241,7 @@
       width: 1.25rem;
       height: 1.25rem;
       border-radius: 50%;
-      background: var(--accent-color, #D4AF37);
+      background: var(--accent-color, #d4af37);
       cursor: pointer;
       box-shadow: 0 0.125rem 0.25rem var(--handle-shadow, rgba(0, 0, 0, 0.2));
     }
@@ -248,7 +250,7 @@
       width: 1.25rem;
       height: 1.25rem;
       border-radius: 50%;
-      background: var(--accent-color, #D4AF37);
+      background: var(--accent-color, #d4af37);
       cursor: pointer;
       border: none;
       box-shadow: 0 0.125rem 0.25rem var(--handle-shadow, rgba(0, 0, 0, 0.2));
@@ -260,7 +262,7 @@
     top: -0.5rem;
     left: 0;
     transform: translateX(-50%);
-    background: var(--accent-color, #D4AF37);
+    background: var(--accent-color, #d4af37);
     color: white;
     padding: 0.25rem 0.5rem;
     border-radius: 0.375rem;
@@ -269,7 +271,7 @@
     white-space: nowrap;
     pointer-events: none;
     box-shadow: 0 0.125rem 0.375rem var(--accent-shadow, rgba(0, 0, 0, 0.2));
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -280,7 +282,7 @@
       height: 0;
       border-left: 0.3125rem solid transparent;
       border-right: 0.3125rem solid transparent;
-      border-top: 0.3125rem solid var(--accent-color, #D4AF37);
+      border-top: 0.3125rem solid var(--accent-color, #d4af37);
     }
   }
 
@@ -288,7 +290,7 @@
     position: absolute;
     top: -2rem;
     transform: translateX(-50%);
-    background: var(--accent-color, #D4AF37);
+    background: var(--accent-color, #d4af37);
     border-radius: 50%;
     width: 2.5rem;
     height: 2.5rem;

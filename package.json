@@ -14,7 +14,21 @@
     "dev:mock": "node mock-server.js & vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:scss": "stylelint \"src/**/*.scss\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,scss}\"",
+    "preview": "vite preview",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "src/**/*.scss": [
+      "prettier --write",
+      "stylelint --fix"
+    ]
   },
   "dependencies": {
     "lucide-react": "^0.563.0",
@@ -34,7 +48,12 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "express": "^4.18.2",
     "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
     "sass": "^1.97.1",
+    "stylelint": "^17.3.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

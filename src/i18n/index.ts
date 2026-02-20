@@ -9,7 +9,7 @@ type TranslationValue = string | { [key: string]: TranslationValue };
  */
 function interpolate(template: string, params?: Record<string, string | number>): string {
   if (!params) return template;
-  
+
   return Object.entries(params).reduce((result, [key, value]) => {
     return result.replace(new RegExp(`{{${key}}}`, 'g'), String(value));
   }, template);
@@ -40,7 +40,7 @@ export function createTranslator(language: SupportedLanguage = 'en') {
    */
   return function t(key: string, params?: Record<string, string | number>): string {
     const value = getNestedValue(translations, key);
-    
+
     if (typeof value !== 'string') {
       console.warn(`Translation key not found: ${key}`);
       return key;
@@ -61,14 +61,11 @@ export function getPluralKey(baseKey: string, count: number): string {
 /**
  * Helper to get room count translation
  */
-export function getRoomCountTranslation(
-  t: ReturnType<typeof createTranslator>,
-  count: number
-): string {
+export function getRoomCountTranslation(t: ReturnType<typeof createTranslator>, count: number): string {
   if (count === 0) {
     return t('actions.select_rooms');
   }
-  
+
   const key = count === 1 ? 'actions.clean_rooms' : 'actions.clean_rooms_plural';
   return t(key, { count: String(count) });
 }

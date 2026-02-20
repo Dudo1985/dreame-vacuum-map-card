@@ -23,18 +23,21 @@ export function useVacuumCardState({ defaultMode = DEFAULTS.MODE }: UseVacuumCar
     setSelectedZone(null);
   }, []);
 
-  const handleRoomToggle = useCallback((roomId: number, roomName: string) => {
-    setSelectedRooms((prevSelected) => {
-      const newSelected = new Map(prevSelected);
-      if (newSelected.has(roomId)) {
-        newSelected.delete(roomId);
-      } else {
-        newSelected.set(roomId, roomName);
-      }
-      return newSelected;
-    });
-    return selectedRooms.has(roomId);
-  }, [selectedRooms]);
+  const handleRoomToggle = useCallback(
+    (roomId: number, roomName: string) => {
+      setSelectedRooms((prevSelected) => {
+        const newSelected = new Map(prevSelected);
+        if (newSelected.has(roomId)) {
+          newSelected.delete(roomId);
+        } else {
+          newSelected.set(roomId, roomName);
+        }
+        return newSelected;
+      });
+      return selectedRooms.has(roomId);
+    },
+    [selectedRooms]
+  );
 
   return {
     selectedMode,

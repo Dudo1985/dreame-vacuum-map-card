@@ -11,10 +11,7 @@ import {
   convertCleanGeniusStateToService,
   convertToLowerCase,
 } from '../../utils';
-import {
-  CLEANGENIUS_STATE,
-  CLEANING_ROUTE,
-} from '../../constants';
+import { CLEANGENIUS_STATE, CLEANING_ROUTE } from '../../constants';
 
 interface CleanGeniusModeProps {
   cleangeniusMode: string;
@@ -44,19 +41,13 @@ export function CleanGeniusMode({
         entityIds.cleangenius,
         convertCleanGeniusStateToService(CLEANGENIUS_STATE.DEEP_CLEANING as CleanGeniusState)
       );
-      setSelectOption(
-        entityIds.cleaningRoute,
-        convertToLowerCase(CLEANING_ROUTE.DEEP)
-      );
+      setSelectOption(entityIds.cleaningRoute, convertToLowerCase(CLEANING_ROUTE.DEEP));
     } else {
       setSelectOption(
         entityIds.cleangenius,
         convertCleanGeniusStateToService(CLEANGENIUS_STATE.ROUTINE_CLEANING as CleanGeniusState)
       );
-      setSelectOption(
-        entityIds.cleaningRoute,
-        convertToLowerCase(CLEANING_ROUTE.STANDARD)
-      );
+      setSelectOption(entityIds.cleaningRoute, convertToLowerCase(CLEANING_ROUTE.STANDARD));
     }
   };
 
@@ -74,18 +65,15 @@ export function CleanGeniusMode({
                 className={`cleaning-mode-modal__mode-card ${
                   mode === cleangeniusMode ? 'cleaning-mode-modal__mode-card--selected' : ''
                 }`}
-                onClick={() => setSelectOption(
-                  entityIds.cleangeniusMode,
-                  convertCleanGeniusModeToService(typedMode)
-                )}
+                onClick={() => setSelectOption(entityIds.cleangeniusMode, convertCleanGeniusModeToService(typedMode))}
                 style={{ cursor: 'pointer' }}
               >
-                <div className={`cleaning-mode-modal__mode-icon cleaning-mode-modal__mode-icon--${isVacMop ? 'vac-mop' : 'mop-after'}`}>
+                <div
+                  className={`cleaning-mode-modal__mode-icon cleaning-mode-modal__mode-icon--${isVacMop ? 'vac-mop' : 'mop-after'}`}
+                >
                   {getCleanGeniusModeIcon(typedMode)}
                 </div>
-                <span className="cleaning-mode-modal__mode-label">
-                  {getCleanGeniusModeFriendlyName(typedMode)}
-                </span>
+                <span className="cleaning-mode-modal__mode-label">{getCleanGeniusModeFriendlyName(typedMode)}</span>
                 {mode === cleangeniusMode && (
                   <div className="cleaning-mode-modal__mode-checkmark">
                     <span>✓</span>
@@ -99,10 +87,7 @@ export function CleanGeniusMode({
 
       <div className="cleaning-mode-modal__setting">
         <span className="cleaning-mode-modal__setting-label">{t('cleangenius_mode.deep_cleaning')}</span>
-        <Toggle 
-          checked={cleangenius === CLEANGENIUS_STATE.DEEP_CLEANING} 
-          onChange={handleDeepCleaningToggle} 
-        />
+        <Toggle checked={cleangenius === CLEANGENIUS_STATE.DEEP_CLEANING} onChange={handleDeepCleaningToggle} />
       </div>
     </div>
   );

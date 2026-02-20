@@ -10,7 +10,7 @@ interface PauseButtonProps {
 
 export function PauseButton({ onClick, language = 'en' }: PauseButtonProps) {
   const { t } = useTranslation(language);
-  
+
   return (
     <button onClick={onClick} className="action-buttons__pause">
       <span className="action-buttons__icon">{PAUSE_CLEANING_ICON_SVG}</span>

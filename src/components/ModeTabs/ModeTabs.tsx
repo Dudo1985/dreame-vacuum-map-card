@@ -2,7 +2,7 @@ import type { CleaningMode } from '../../types/homeassistant';
 import type { SupportedLanguage } from '../../i18n/locales';
 import { useTranslation } from '../../hooks';
 import './ModeTabs.scss';
-import { FlaskConical  } from "lucide-react";
+import { FlaskConical } from 'lucide-react';
 import type { ReactElement } from 'react';
 
 interface ModeTabsProps {
@@ -14,8 +14,8 @@ interface ModeTabsProps {
 
 export function ModeTabs({ selectedMode, onModeChange, disabled = false, language = 'en' }: ModeTabsProps) {
   const { t } = useTranslation(language);
-  
-  const modes: { value: CleaningMode; label: string, icon?: ReactElement }[] = [
+
+  const modes: { value: CleaningMode; label: string; icon?: ReactElement }[] = [
     { value: 'room', label: t('modes.room') },
     { value: 'all', label: t('modes.all') },
     { value: 'zone', label: t('modes.zone'), icon: <FlaskConical /> },
@@ -27,9 +27,7 @@ export function ModeTabs({ selectedMode, onModeChange, disabled = false, languag
         <button
           key={mode.value}
           onClick={() => onModeChange(mode.value)}
-          className={`mode-tabs__button ${
-            selectedMode === mode.value ? 'mode-tabs__button--active' : ''
-          }`}
+          className={`mode-tabs__button ${selectedMode === mode.value ? 'mode-tabs__button--active' : ''}`}
           disabled={disabled}
         >
           {mode.label}

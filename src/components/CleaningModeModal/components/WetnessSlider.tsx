@@ -21,11 +21,12 @@ export function WetnessSlider({
   wetLabel,
 }: WetnessSliderProps) {
   const [localValue, setLocalValue] = useState(wetnessLevel);
-  const wetnessPercent = ((localValue - SLIDER_CONFIG.WETNESS.MIN) / (SLIDER_CONFIG.WETNESS.MAX - SLIDER_CONFIG.WETNESS.MIN)) * 100;
-  
+  const wetnessPercent =
+    ((localValue - SLIDER_CONFIG.WETNESS.MIN) / (SLIDER_CONFIG.WETNESS.MAX - SLIDER_CONFIG.WETNESS.MIN)) * 100;
+
   // Calculate tooltip position accounting for thumb width (20px = 1.25rem)
   const thumbWidth = 20; // in pixels
-  const tooltipLeft = `calc(${wetnessPercent}% + ${(thumbWidth / 2) - (wetnessPercent * thumbWidth / 100)}px)`;
+  const tooltipLeft = `calc(${wetnessPercent}% + ${thumbWidth / 2 - (wetnessPercent * thumbWidth) / 100}px)`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalValue(parseInt(e.target.value));
@@ -52,13 +53,13 @@ export function WetnessSlider({
             onTouchEnd={handleCommit}
             className="cleaning-mode-modal__slider"
             style={{
-              background: `linear-gradient(to right, var(--accent-bg-secondary) 0%, var(--accent-bg-secondary) ${wetnessPercent}%, var(--accent-bg-secondary-hover) ${wetnessPercent}%, var(--accent-bg-secondary-hover) 100%)`
+              background: `linear-gradient(to right, var(--accent-bg-secondary) 0%, var(--accent-bg-secondary) ${wetnessPercent}%, var(--accent-bg-secondary-hover) ${wetnessPercent}%, var(--accent-bg-secondary-hover) 100%)`,
             }}
           />
-          <div 
+          <div
             className="cleaning-mode-modal__slider-tooltip"
             style={{
-              left: tooltipLeft
+              left: tooltipLeft,
             }}
           >
             {localValue}
@@ -68,19 +69,31 @@ export function WetnessSlider({
 
       {/* Labels */}
       <div className="cleaning-mode-modal__slider-labels">
-        <span className={`cleaning-mode-modal__slider-label ${
-          mopPadHumidity === MOP_PAD_HUMIDITY.SLIGHTLY_DRY ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
-        }`}>
+        <span
+          className={`cleaning-mode-modal__slider-label ${
+            mopPadHumidity === MOP_PAD_HUMIDITY.SLIGHTLY_DRY
+              ? 'cleaning-mode-modal__slider-label--active'
+              : 'cleaning-mode-modal__slider-label--inactive'
+          }`}
+        >
           {slightlyDryLabel}
         </span>
-        <span className={`cleaning-mode-modal__slider-label ${
-          mopPadHumidity === MOP_PAD_HUMIDITY.MOIST ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
-        }`}>
+        <span
+          className={`cleaning-mode-modal__slider-label ${
+            mopPadHumidity === MOP_PAD_HUMIDITY.MOIST
+              ? 'cleaning-mode-modal__slider-label--active'
+              : 'cleaning-mode-modal__slider-label--inactive'
+          }`}
+        >
           {moistLabel}
         </span>
-        <span className={`cleaning-mode-modal__slider-label ${
-          mopPadHumidity === MOP_PAD_HUMIDITY.WET ? 'cleaning-mode-modal__slider-label--active' : 'cleaning-mode-modal__slider-label--inactive'
-        }`}>
+        <span
+          className={`cleaning-mode-modal__slider-label ${
+            mopPadHumidity === MOP_PAD_HUMIDITY.WET
+              ? 'cleaning-mode-modal__slider-label--active'
+              : 'cleaning-mode-modal__slider-label--inactive'
+          }`}
+        >
           {wetLabel}
         </span>
       </div>

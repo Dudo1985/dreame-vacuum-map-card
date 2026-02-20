@@ -84,7 +84,7 @@ export function attachDevUtils(hass: Hass, entityId: string) {
       simulateError: (message: string) => void;
       resetVacuum: () => void;
       updateState: (updates: Partial<{ state: string; attributes: Record<string, unknown> }>) => void;
-      getState: () => typeof hass.states[string];
+      getState: () => (typeof hass.states)[string];
       callService: (domain: string, service: string, data?: Record<string, unknown>) => Promise<void>;
     }
 
@@ -95,10 +95,10 @@ export function attachDevUtils(hass: Hass, entityId: string) {
       simulateBatteryDrain: (amount?: number) => simulateBatteryDrain(hass, entityId, amount),
       simulateError: (message: string) => simulateError(hass, entityId, message),
       resetVacuum: () => resetVacuum(hass, entityId),
-      updateState: (updates: Partial<{ state: string; attributes: Record<string, unknown> }>) => 
+      updateState: (updates: Partial<{ state: string; attributes: Record<string, unknown> }>) =>
         updateMockEntityState(hass, entityId, updates),
       getState: () => hass.states[entityId],
-      callService: (domain: string, service: string, data?: Record<string, unknown>) => 
+      callService: (domain: string, service: string, data?: Record<string, unknown>) =>
         hass.callService(domain, service, data),
     };
   }

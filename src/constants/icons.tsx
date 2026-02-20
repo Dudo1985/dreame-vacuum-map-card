@@ -3,35 +3,35 @@
  */
 
 import {
-    Plus,
-    Bookmark,
-    ArrowBigRightDash,
-    BrushCleaning,
-    Droplet,
-    SignalLow,
-    SignalMedium,
-    SignalHigh,
-    Signal,
-    Zap,
-    Route,
-    WavesArrowDown,
-    Scan,
-    Grid2x2Check,
-    Timer,
-    Shell,
-    CirclePlay,
-    PanelBottomClose,
-    BatteryCharging,
-    Battery,
-    BatteryLow,
-    BatteryMedium,
-    BatteryFull,
-    History,
-    Play,
-    Pause,
-    StepForward,
-    OctagonX
-} from "lucide-react";
+  Plus,
+  Bookmark,
+  ArrowBigRightDash,
+  BrushCleaning,
+  Droplet,
+  SignalLow,
+  SignalMedium,
+  SignalHigh,
+  Signal,
+  Zap,
+  Route,
+  WavesArrowDown,
+  Scan,
+  Grid2x2Check,
+  Timer,
+  Shell,
+  CirclePlay,
+  PanelBottomClose,
+  BatteryCharging,
+  Battery,
+  BatteryLow,
+  BatteryMedium,
+  BatteryFull,
+  History,
+  Play,
+  Pause,
+  StepForward,
+  OctagonX,
+} from 'lucide-react';
 
 // Header
 
@@ -72,9 +72,21 @@ export const VACUUM_ICON_SVG = <BrushCleaning />;
 
 export const MOP_ICON_SVG = <Droplet />;
 
-export const VACUUM_MOP_ICON_SVG = <><BrushCleaning /><Plus /><Droplet /></>;
+export const VACUUM_MOP_ICON_SVG = (
+  <>
+    <BrushCleaning />
+    <Plus />
+    <Droplet />
+  </>
+);
 
-export const MOP_AFTER_VACUUM_ICON_SVG = <><BrushCleaning /><ArrowBigRightDash /><Droplet /></>;
+export const MOP_AFTER_VACUUM_ICON_SVG = (
+  <>
+    <BrushCleaning />
+    <ArrowBigRightDash />
+    <Droplet />
+  </>
+);
 
 // Suction level icons
 export const SUCTION_QUIET_ICON_SVG = <SignalLow />;
@@ -102,6 +114,3 @@ export const CLEANING_ROUTE_STANDARD_ICON_SVG = <Route />;
 export const CLEANING_ROUTE_INTENSIVE_ICON_SVG = <Shell />;
 
 export const CLEANING_ROUTE_DEEP_ICON_SVG = <WavesArrowDown />;
-
-
-

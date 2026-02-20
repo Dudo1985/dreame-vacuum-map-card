@@ -1,1 +1,1 @@
-export { CleaningModeModal } from "./CleaningModeModal"
+export { CleaningModeModal } from './CleaningModeModal';

@@ -19,42 +19,36 @@ interface CleaningModeModalProps {
   language?: SupportedLanguage;
 }
 
-export function CleaningModeModal({
-  opened,
-  onClose,
-  entity,
-  hass,
-  language,
-}: CleaningModeModalProps) {
+export function CleaningModeModal({ opened, onClose, entity, hass, language }: CleaningModeModalProps) {
   const { t } = useTranslation(language);
   const baseEntityId = extractBaseEntityId(entity.entity_id);
   const { setSelectOption, setSwitch } = useHomeAssistantServices(hass);
   const entityIds = useVacuumEntityIds(baseEntityId);
-  
+
   // Helper functions for type-safe attribute access
   const getStringAttr = (key: string, defaultValue: string): string => {
     const value = entity.attributes[key];
     return typeof value === 'string' ? value : defaultValue;
   };
-  
+
   const getNumberAttr = (key: string, defaultValue: number): number => {
     const value = entity.attributes[key];
     return typeof value === 'number' ? value : defaultValue;
   };
-  
+
   const getBooleanAttr = (key: string, defaultValue: boolean): boolean => {
     const value = entity.attributes[key];
     return typeof value === 'boolean' ? value : defaultValue;
   };
-  
+
   const getStringArrayAttr = (key: string, defaultValue: string[]): string[] => {
     const value = entity.attributes[key];
-    return Array.isArray(value) ? value as string[] : defaultValue;
+    return Array.isArray(value) ? (value as string[]) : defaultValue;
   };
-  
+
   const cleangenius = getStringAttr('cleangenius', CLEANGENIUS_STATE.OFF);
   const [isCleanGenius, setIsCleanGenius] = useState(cleangenius !== CLEANGENIUS_STATE.OFF);
-  
+
   const cleaningMode = getStringAttr('cleaning_mode', DEFAULTS.CLEANING_MODE);
   const cleangeniusMode = getStringAttr('cleangenius_mode', DEFAULTS.CLEANGENIUS_MODE);
   const suctionLevel = getStringAttr('suction_level', DEFAULTS.SUCTION_LEVEL);
@@ -82,21 +76,18 @@ export function CleaningModeModal({
     'Sweeping and mopping',
     'Mopping after sweeping',
   ]);
-  
-  const cleangeniusModeList = getStringArrayAttr('cleangenius_mode_list', [
-    'Vacuum and mop',
-    'Mop after vacuum',
-  ]);
-  
+
+  const cleangeniusModeList = getStringArrayAttr('cleangenius_mode_list', ['Vacuum and mop', 'Mop after vacuum']);
+
   const suctionLevelList = getStringArrayAttr('suction_level_list', ['Quiet', 'Standard', 'Strong', 'Turbo']);
   const cleaningRouteList = getStringArrayAttr('cleaning_route_list', ['Quick', 'Standard', 'Intensive', 'Deep']);
 
   const handleModeSwitch = (value: string) => {
     const isCleanGeniusMode = value === UI_MODE_TYPE.CLEANGENIUS;
     setIsCleanGenius(isCleanGeniusMode);
-    
+
     setSwitch(entityIds.customMoppingMode, !isCleanGeniusMode);
-    
+
     if (isCleanGeniusMode) {
       setSelectOption(
         entityIds.cleangenius,
