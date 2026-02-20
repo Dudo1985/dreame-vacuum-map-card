@@ -1,11 +1,13 @@
 import { Modal, Accordion } from '../common';
 import { useTranslation } from '../../hooks';
+import { AIDetectionSection } from './sections/AIDetectionSection';
+import { CarpetSettingsSection } from './sections/CarpetSettingsSection';
 import { ConsumablesSection } from './sections/ConsumablesSection';
 import { DeviceInfoSection } from './sections/DeviceInfoSection';
 import { MapManagementSection } from './sections/MapManagementSection';
 import { QuickSettingsSection } from './sections/QuickSettingsSection';
 import { VolumeSection } from './sections/VolumeSection';
-import { Gauge, Info, Map, Settings2, Volume2 } from 'lucide-react';
+import { Brain, Gauge, Info, Layers, Map, Settings2, Volume2 } from 'lucide-react';
 import type { Hass, HassEntity, HassConfig } from '../../types/homeassistant';
 import './SettingsPanel.scss';
 
@@ -45,6 +47,14 @@ export function SettingsPanel({ opened, onClose, hass, entity, config }: Setting
 
             <Accordion title={t('settings.quick_settings.title')} icon={<Settings2 />}>
               <QuickSettingsSection hass={hass} entity={entity} />
+            </Accordion>
+
+            <Accordion title={t('settings.carpet.title')} icon={<Layers />}>
+              <CarpetSettingsSection hass={hass} entity={entity} />
+            </Accordion>
+
+            <Accordion title={t('settings.ai_detection.title')} icon={<Brain />}>
+              <AIDetectionSection hass={hass} entity={entity} />
             </Accordion>
           </div>
         </div>

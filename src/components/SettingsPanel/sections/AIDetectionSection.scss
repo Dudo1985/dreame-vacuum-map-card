@@ -1,0 +1,33 @@
+.ai-detection-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary, #333);
+  }
+
+  &__description {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #666);
+    line-height: 1.3;
+  }
+}
