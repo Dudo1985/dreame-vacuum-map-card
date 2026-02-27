@@ -117,6 +117,7 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
           onImageDimensionsChange={(width, height) => setImageDimensions({ width, height })}
           language={language}
           isStarted={getAttr(entity.attributes.started, false)}
+          defaultRoomView={config.default_room_view}
         />
 
         <CleaningModeButton

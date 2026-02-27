@@ -13,6 +13,10 @@ export const en = {
     zone_overlay_create: 'Click on the map to place a cleaning zone',
     zone_overlay_resize: 'Drag corners to resize, click elsewhere to reposition',
     clear_zone: 'Clear zone',
+    switch_to_list: 'Switch to list view',
+    switch_to_map: 'Switch to map view',
+    room_list_overlay: 'Tap rooms to select for cleaning',
+    no_rooms: 'No rooms available',
   },
 
   // Mode Tabs

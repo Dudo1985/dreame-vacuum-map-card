@@ -15,6 +15,10 @@ export const ru: Translation = {
     zone_overlay_create: 'Кликните на карту для добавления зоны уборки',
     zone_overlay_resize: 'Потяните за углы для изменения размеры, кликните на любом месте для новой зоны',
     clear_zone: 'Уборка зоны',
+    switch_to_list: 'Переключить на список',
+    switch_to_map: 'Переключить на карту',
+    room_list_overlay: 'Нажмите на комнаты для выбора уборки',
+    no_rooms: 'Нет доступных комнат',
   },
 
   // Mode Tabs

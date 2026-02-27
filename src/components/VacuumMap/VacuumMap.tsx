@@ -1,10 +1,12 @@
-import { useRef, useState } from 'react';
-import type { Hass, RoomPosition, CleaningMode, Zone, CalibrationPoint } from '../../types/homeassistant';
+import { useRef, useState, useEffect } from 'react';
+import type { Hass, RoomPosition, CleaningMode, Zone, CalibrationPoint, RoomViewMode } from '../../types/homeassistant';
 import type { SupportedLanguage } from '../../i18n/locales';
 import { useTranslation } from '../../hooks';
 import { parseRoomsFromCamera } from '../../utils/roomParser';
 import { ZoneSelector } from './ZoneSelector';
 import { RoomSegments } from './RoomSegments';
+import { ViewToggleButton } from './ViewToggleButton';
+import { RoomListView } from './RoomListView';
 import './VacuumMap.scss';
 
 interface VacuumMapProps {
@@ -19,6 +21,7 @@ interface VacuumMapProps {
   onImageDimensionsChange?: (width: number, height: number) => void;
   language?: SupportedLanguage;
   isStarted?: boolean;
+  defaultRoomView?: RoomViewMode;
 }
 
 export function VacuumMap({
@@ -32,6 +35,7 @@ export function VacuumMap({
   onImageDimensionsChange,
   language = 'en',
   isStarted = false,
+  defaultRoomView = 'map',
 }: VacuumMapProps) {
   const { t } = useTranslation(language);
   const mapEntity = hass.states[mapEntityId];
@@ -39,6 +43,14 @@ export function VacuumMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+  const [roomViewMode, setRoomViewMode] = useState<RoomViewMode>(defaultRoomView);
+
+  // Reset to default view when switching away from room mode
+  useEffect(() => {
+    if (selectedMode !== 'room') {
+      setRoomViewMode(defaultRoomView);
+    }
+  }, [selectedMode, defaultRoomView]);
 
   const parsedRooms = parseRoomsFromCamera(hass, mapEntityId);
   const calibrationPoints = (mapEntity?.attributes?.calibration_points as CalibrationPoint[] | undefined) ?? [];
@@ -119,17 +131,35 @@ export function VacuumMap({
 
       {selectedMode === 'room' && (
         <>
-          <div className="vacuum-map__overlay">{t('vacuum_map.room_overlay')}</div>
+          <ViewToggleButton
+            viewMode={roomViewMode}
+            onToggle={() => setRoomViewMode((v) => (v === 'map' ? 'list' : 'map'))}
+            mapLabel={t('vacuum_map.switch_to_map')}
+            listLabel={t('vacuum_map.switch_to_list')}
+          />
 
-          {imageDimensions.width > 0 && imageDimensions.height > 0 && (
-            <RoomSegments
+          {roomViewMode === 'map' ? (
+            <>
+              <div className="vacuum-map__overlay">{t('vacuum_map.room_overlay')}</div>
+
+              {imageDimensions.width > 0 && imageDimensions.height > 0 && (
+                <RoomSegments
+                  rooms={parsedRooms}
+                  selectedRooms={selectedRooms}
+                  onRoomToggle={onRoomToggle}
+                  calibrationPoints={calibrationPoints}
+                  imageWidth={imageDimensions.width}
+                  imageHeight={imageDimensions.height}
+                  isStarted={isStarted}
+                />
+              )}
+            </>
+          ) : (
+            <RoomListView
               rooms={parsedRooms}
               selectedRooms={selectedRooms}
               onRoomToggle={onRoomToggle}
-              calibrationPoints={calibrationPoints}
-              imageWidth={imageDimensions.width}
-              imageHeight={imageDimensions.height}
-              isStarted={isStarted}
+              language={language}
             />
           )}
         </>

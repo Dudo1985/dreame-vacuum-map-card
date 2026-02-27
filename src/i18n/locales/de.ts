@@ -16,6 +16,10 @@ export const de: Translation = {
     zone_overlay_resize:
       'Ziehen Sie an den Ecken, um die Größe zu ändern, oder klicken Sie woanders, um neu zu positionieren',
     clear_zone: 'Zone löschen',
+    switch_to_list: 'Zur Listenansicht wechseln',
+    switch_to_map: 'Zur Kartenansicht wechseln',
+    room_list_overlay: 'Räume antippen, um sie für die Reinigung auszuwählen',
+    no_rooms: 'Keine Räume verfügbar',
   },
 
   // Mode Tabs

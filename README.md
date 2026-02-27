@@ -45,27 +45,34 @@ A modern, beautiful Home Assistant Lovelace card for controlling Dreame robot va
 ## Installation
 
 ### Via [HACS](https://hacs.xyz/)
+
 <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=noambergauz&repository=dreame-vacuum-map-card&category=integration" target="_blank"><img src="https://my.home-assistant.io/badges/hacs_repository.svg" alt="Open your Home Assistant instance and open a repository inside the Home Assistant Community Store." /></a>
 
 ### Manual:
 
 #### 1. Download the card
+
 Download `dreame-vacuum-map-card.js` from the releases page
 
 #### 2. Add to Home Assistant
+
 Copy the file to your Home Assistant config directory:
+
 ```
 /config/www/dreame-vacuum-map-card/dreame-vacuum-map-card.js
 ```
 
 #### 3. Add resource to Lovelace
+
 Go to Settings → Dashboards → Resources → Add Resource:
+
 - URL: `/local/dreame-vacuum-map-card/dreame-vacuum-map-card.js`
 - Resource type: JavaScript Module
 
 ## Usage
 
 ### 4. Add card to dashboard
+
 ```yaml
 type: custom:dreame-vacuum-map-card
 entity: vacuum.dreame_vacuum_entity
@@ -74,19 +81,21 @@ map_entity: camera.dreame_vacuum_entity # Optional, defaults to camera.${ENTITY_
 theme: light # Optional, 'light' (default), 'dark', or 'custom'
 language: en # Optional, 'en' (default) or 'de'
 default_mode: all # Optional, 'all' (default), 'room', or 'zone'
+default_room_view: map # Optional, 'map' (default) or 'list'
 ```
 
 ## Configuration
 
-| Name | Type | Default | Description |
-|------|------|---------|-------------|
-| `entity` | string | **Required** | Entity ID of your Dreame vacuum |
-| `title` | string | Optional | Custom title for the card |
-| `map_entity` | string | Optional | Camera entity for the vacuum map (defaults to `camera.${ENTITY_NAME}_map`) |
-| `theme` | string | `light` | Theme mode: `light`, `dark`, or `custom` |
-| `custom_theme` | object | Optional | Custom theme configuration (see [Theming](#theming)) |
-| `language` | string | `en` | Language: `en` (English) or `de` (German) |
-| `default_mode` | string | `all` | Default tab to display: `all`, `room`, or `zone` |
+| Name                | Type   | Default      | Description                                                                |
+| ------------------- | ------ | ------------ | -------------------------------------------------------------------------- |
+| `entity`            | string | **Required** | Entity ID of your Dreame vacuum                                            |
+| `title`             | string | Optional     | Custom title for the card                                                  |
+| `map_entity`        | string | Optional     | Camera entity for the vacuum map (defaults to `camera.${ENTITY_NAME}_map`) |
+| `theme`             | string | `light`      | Theme mode: `light`, `dark`, or `custom`                                   |
+| `custom_theme`      | object | Optional     | Custom theme configuration (see [Theming](#theming))                       |
+| `language`          | string | `en`         | Language: `en` (English) or `de` (German)                                  |
+| `default_mode`      | string | `all`        | Default tab to display: `all`, `room`, or `zone`                           |
+| `default_room_view` | string | `map`        | Default room selection view: `map` (interactive) or `list` (scrollable)    |
 
 ## Theming
 
@@ -95,6 +104,7 @@ The card features a comprehensive theming system with built-in and custom theme 
 ### Built-in Themes
 
 #### Light Theme (Default)
+
 ```yaml
 type: custom:dreame-vacuum-map-card
 entity: vacuum.dreame_vacuum_entity
@@ -102,6 +112,7 @@ theme: light
 ```
 
 #### Dark Theme
+
 ```yaml
 type: custom:dreame-vacuum-map-card
 entity: vacuum.dreame_vacuum_entity
@@ -117,7 +128,7 @@ type: custom:dreame-vacuum-map-card
 entity: vacuum.dreame_vacuum_entity
 theme: custom
 custom_theme:
-  base: dark  # Extend 'dark' or 'light' theme
+  base: dark # Extend 'dark' or 'light' theme
   accentColor: '#ff6b6b'
   accentColorHover: '#ff5252'
   accentBg: 'rgba(255, 107, 107, 0.2)'
@@ -128,26 +139,33 @@ custom_theme:
 You can customize any of the following colors:
 
 **Background Colors:**
+
 - `cardBg`, `surfaceBg`, `surfaceSecondary`, `surfaceTertiary`, `surfaceBgHover`
 
 **Text Colors:**
+
 - `textPrimary`, `textPrimaryInvert`, `textSecondary`, `textTertiary`
 
 **Accent Colors:**
-- `accentColor`, `accentColorHover`, `accentBg`, `accentBgHover`, `accentBgSecondary`, `accentBgSecondaryHover`,  `accentBgTransparent`, `accentShadow`, `accentColorShadowColor`
+
+- `accentColor`, `accentColorHover`, `accentBg`, `accentBgHover`, `accentBgSecondary`, `accentBgSecondaryHover`, `accentBgTransparent`, `accentShadow`, `accentColorShadowColor`
 
 **State Colors:**
+
 - `warningColor`, `warningShadow`, `errorColor`, `errorColorHover`, `errorShadow`
 
 **UI Elements:**
+
 - `borderColor`, `overlayBg`, `cardShadow`, `cardShadowHover`, `handleShadow`, `handleBg`, `backdropBg`
 
 **Toggle Specific:**
+
 - `toggleActive`, `toggleActiveBorder`, `toggleActiveShadowColor`
 
 ### Example Custom Themes
 
 #### Ocean Blue
+
 ```yaml
 theme: custom
 custom_theme:
@@ -159,6 +177,7 @@ custom_theme:
 ```
 
 #### Warm Sunset
+
 ```yaml
 theme: custom
 custom_theme:
@@ -169,6 +188,7 @@ custom_theme:
 ```
 
 #### Forest Green
+
 ```yaml
 theme: custom
 custom_theme:
@@ -196,6 +216,7 @@ language: de
 ```
 
 All user-facing text is translated, including:
+
 - Room selection and cleaning modes
 - Action buttons (Clean, Pause, Resume, Stop, Dock)
 - Toast notifications
@@ -212,6 +233,7 @@ To add support for additional languages:
 4. Update the `HassConfig` type in `src/types/homeassistant.ts`
 
 Example structure:
+
 ```typescript
 import type { Translation } from './en';
 
@@ -227,10 +249,12 @@ export const fr: Translation = {
 ## Development
 
 ### Prerequisites
+
 - Node.js 20+
 - npm or yarn
 
 ### Setup
+
 ```bash
 npm install
 ```
@@ -238,6 +262,7 @@ npm install
 ### Development Mode
 
 Run the development server with mock data:
+
 ```bash
 npm run dev
 ```
@@ -249,16 +274,19 @@ The app will start at http://localhost:5173 with mock vacuum data automatically 
 If you need to test API endpoints, run the mock server separately:
 
 **Terminal 1 - Mock Server:**
+
 ```bash
 npm run mock
 ```
 
 **Terminal 2 - Dev Server:**
+
 ```bash
 npm run dev
 ```
 
 Or run both together:
+
 ```bash
 npm run dev:mock
 ```
@@ -266,11 +294,13 @@ npm run dev:mock
 #### Environment Configuration
 
 Copy `.env.example` to `.env` and customize as needed:
+
 ```bash
 cp .env.example .env
 ```
 
 ### Build
+
 ```bash
 npm run build
 ```
@@ -279,7 +309,7 @@ The built file will be in `dist/dreame-vacuum-map-card.js`
 
 ## Tech Stack
 
-- **React 19.2.0** 
+- **React 19.2.0**
 - **Lucide React Icons**
 - **TypeScript 5.9.3**
 - **Vite 7.2.4**
@@ -298,4 +328,3 @@ The built file will be in `dist/dreame-vacuum-map-card.js`
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details
-
