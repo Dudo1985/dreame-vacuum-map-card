@@ -140,9 +140,9 @@ export function VacuumMap({
 
           {roomViewMode === 'map' ? (
             <>
-              <div className="vacuum-map__overlay">{t('vacuum_map.room_overlay')}</div>
+              {!isStarted && <div className="vacuum-map__overlay">{t('vacuum_map.room_overlay')}</div>}
 
-              {imageDimensions.width > 0 && imageDimensions.height > 0 && (
+              {!isStarted && imageDimensions.width > 0 && imageDimensions.height > 0 && (
                 <RoomSegments
                   rooms={parsedRooms}
                   selectedRooms={selectedRooms}
