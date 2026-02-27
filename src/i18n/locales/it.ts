@@ -15,6 +15,10 @@ export const it: Translation = {
     zone_overlay_create: 'Clicca sulla mappa per posizionare una zona di pulizia',
     zone_overlay_resize: 'Trascina gli angoli per ridimensionare, clicca altrove per riposizionare',
     clear_zone: 'Cancella zona',
+    switch_to_list: 'Passa alla vista elenco',
+    switch_to_map: 'Passa alla vista mappa',
+    room_list_overlay: 'Tocca le stanze per selezionarle per la pulizia',
+    no_rooms: 'Nessuna stanza disponibile',
   },
 
   // Mode Tabs
@@ -114,6 +118,32 @@ export const it: Translation = {
   header: {
     battery: 'Batteria',
     status: 'Stato',
+    area: 'Area',
+    time: 'Tempo',
+  },
+
+  // Units
+  units: {
+    square_meters: 'm²',
+    minutes: 'min',
+    minutes_short: 'm',
+    percent: '%',
+    decibels: 'dBm',
+  },
+
+  // Suction Levels (friendly names)
+  suction_levels: {
+    quiet: 'Silenzioso',
+    standard: 'Standard',
+    strong: 'Turbo',
+    turbo: 'Max',
+  },
+
+  // Mop Washing Frequency
+  mop_washing_frequency: {
+    by_room: 'Per stanza',
+    by_area: 'Per area',
+    by_time: 'Per tempo',
   },
 
   // Errors
